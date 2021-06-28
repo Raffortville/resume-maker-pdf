@@ -1,31 +1,32 @@
 import React, {useState} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { userSelector } from '../../Store/userStore'
-import { createResume, resumeSelector } from '../../Store/resumeStore'
+import { useHistory } from 'react-router'
+import { updateResumeToDb, resumeSelector } from '../../Store/resumeStore'
 import { TextField , Button, Tooltip} from '@material-ui/core'
 import SaveIcon from '@material-ui/icons/Save'
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
 import Skeleton from './Skeleton'
+import {isStringEmpty} from '../../Helpers/checkFormat'
 
 
 const ResumeInfos = props => {
 
     const dispatch = useDispatch()
+    const history = useHistory()
 
     const resumeHolded = useSelector(resumeSelector)
-    const user = useSelector(userSelector)
-
-    const [titleError, setTitleError] = useState(false)
+   
+    const [postionError, setPositionError] = useState(false)
     const [skill, setSkill] = useState('')
+    const [softSkill,  setSoftSkill] = useState('')
    
 
     const initialState = {
-        userId : user._id,
-        resumeTitle: resumeHolded.resumeTitle || '',
+        position: resumeHolded.position || '',
         portfolio: resumeHolded.portfolio || '',
         socialMedias : resumeHolded.socialMedia || '' ,
-        expertise : resumeHolded.expertise || [],
-        softSkills : resumeHolded.softSkills || []
+        expertises : resumeHolded.expertises || [],
+        softSkills : resumeHolded.softSkills || [],
     }
 
     const [resumeInfos, setResumeInfos] = useState(initialState)
@@ -36,26 +37,40 @@ const ResumeInfos = props => {
     }
 
     const handleSubmit = () => {
-        dispatch(createResume(resumeInfos))
+        if (isStringEmpty(resumeInfos.position)) return setPositionError(true)
+        else {
+            dispatch(updateResumeToDb(resumeInfos, resumeHolded._id))
+            setTimeout(() =>  history.push('/resume/form/work-experience-infos'), 2000) 
+        }
     }
 
     return (
         <Skeleton 
             mainTitle='About your profile'
-            previewChips = {[{chips : resumeInfos.expertise, title: 'Expertise'}, {chips: resumeInfos.softSkills, title:  'Soft Skills'}]}
+            next='/resume/form/work-experience-infos'
+            previewChips = {[
+                {chips : resumeInfos.expertises, 
+                title: 'Expertise', 
+                delete: chip => setResumeInfos({...resumeInfos, expertises: resumeInfos.expertises.filter(j => j !== chip)})
+                }, 
+                {chips: resumeInfos.softSkills, 
+                title: 'Soft Skills',
+                delete: chip => setResumeInfos({...resumeInfos, softSkills: resumeInfos.softSkills.filter(j => j !== chip)})
+            }
+            ]}
         >
             <h3>Position *</h3>
             <TextField 
-                    error={titleError}
+                    error={postionError}
                     type='text'
-                    helperText={titleError && 'A title must be filled'}
-                    value={resumeInfos.resumeTitle}
+                    helperText={postionError && 'A position must be defined'}
+                    value={resumeInfos.position}
                     size='small' 
                     fullWidth  
                     style={{color:'#574b90'}}
-                    name='resumeTitle'
+                    name='position'
                     onChange={(e) => {
-                        titleError && setTitleError(false)
+                        postionError && setPositionError(false)
                         handleChange(e,'text')
                     }}
                 />
@@ -89,41 +104,48 @@ const ResumeInfos = props => {
             <div style={{marginTop:'30px', position:'relative'}}>
                 <h3 >Expertise / Skills </h3>
                 <TextField 
-                    helperText={resumeInfos.expertise.join(' ')}
+                    helperText='write your core skill and add'
                     value={skill}
                     size='small' 
                     fullWidth   
                     style={{color:'#574b90'}}
-                    name='expertise'
-                    onChange={(e) =>{ 
-                        setSkill(e.target.value)
-                    }}
+                    name='expertises'
+                    onChange={e => setSkill(e.target.value)}
                 />
                 <Tooltip title='click to add skill'>
                     <AddCircleOutlineIcon
                         style={{position:'absolute', right:'10px' ,fontSize:'22px', color:'#786fa6', cursor:'pointer'}}
                         onClick={() => {
                             if (skill !== '') {
-                                setResumeInfos({...resumeInfos, expertise: [...resumeInfos.expertise, skill]})
+                                setResumeInfos({...resumeInfos, expertises: [...resumeInfos.expertises, skill]})
                                 setSkill('')
                             }
                         }}
                     />
                 </Tooltip>
             </div>
-            <div style={{marginTop:'30px'}}>
+            <div style={{marginTop:'30px' , position:'relative'}}>
                 <h3 >Others Skills </h3>
                 <TextField 
-                    helperText='Languages, etc...'
-                    value={resumeInfos.softSkills}
+                    helperText='write your soft skill and add'
+                    value={softSkill}
                     size='small' 
                     fullWidth   
                     style={{color:'#574b90'}}
                     name='softSkills'
-                    onChange={(e) =>{ 
-                        handleChange(e, 'text')
-                    }}
+                    onChange={e => setSoftSkill(e.target.value)}
                 />
+                <Tooltip title='click to add skill'>
+                    <AddCircleOutlineIcon
+                        style={{position:'absolute', right:'10px' ,fontSize:'22px', color:'#786fa6', cursor:'pointer'}}
+                        onClick={() => {
+                            if (softSkill !== '') {
+                                setResumeInfos({...resumeInfos, softSkills: [...resumeInfos.softSkills, softSkill]})
+                                setSoftSkill('')
+                            }
+                        }}
+                    />
+                </Tooltip>
             </div>
             <div style={{marginTop:'30px', display:'flex', justifyContent:'flex-end'}}>
                 <Button 

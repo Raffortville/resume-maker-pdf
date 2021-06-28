@@ -9,19 +9,19 @@ const previewChips = props => {
         <>
             {previews.map((e, i) =>
                 e.chips.length > 0 &&
-                <>
+                <div key={i} style={{marginBottom:'20px'}}>
                     <h3 style={{textDecoration:'underline'}}>{e.title}</h3>
-                    <div className='preview-card' key={i}>
+                    <div className='preview-card' >
                         {e.chips.map((j, idx) =>
                             <Chip
                                 key={idx}
-                                style={{color:'#574b90', margin:'5px 5px'}} variant="outlined" 
+                                style={{color:'#596275', margin:'5px 5px'}} variant="outlined" 
                                 label={j}
-                                onDelete={() => console.log('delete')} 
+                                onDelete={() => e.delete(j)} 
                             />
                         )}
                     </div>
-                </>
+                </div>
             )}
             
         </>

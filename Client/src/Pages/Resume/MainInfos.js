@@ -24,7 +24,7 @@ const MainInfos = props => {
         city: user?.city || '', 
         phone: user?.phone || '',
         country:  user?.country || '',
-        emailPro: user?.emailPro || ''
+        emailPro: user?.emailPro || '',
     }
 
     const [personalInfo, setPersonnalInfo] = useState(initialState)
