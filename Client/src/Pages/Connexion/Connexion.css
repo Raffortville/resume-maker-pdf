@@ -1,0 +1,40 @@
+.connexion-container-main {
+    display: flex;
+    justify-content: space-between;
+    -webkit-box-shadow: 0px 0px 15px 5px #BDBDBD; 
+    box-shadow: 0px 0px 10px 0px #bdbdbdc4;
+    width: 530px;
+    margin: 100px auto;
+}
+
+.connexion-container {
+    background-color: #fafafa;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    color: #778beb;
+    transition: background-color 0.3s ease-out;
+}
+
+.connexion-form-wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 15px 30px 15px 30px;
+    border-radius: 10px;
+    cursor: pointer;
+    min-width: 50%;
+}
+
+.connexion-container.focus {
+    background-color: #778beb;
+}
+
+.connexion-container.focus > div {
+   visibility: hidden;
+}
+
+.connexion-container.focus > div > h2 {
+    color:whitesmoke;
+    visibility: visible;
+}

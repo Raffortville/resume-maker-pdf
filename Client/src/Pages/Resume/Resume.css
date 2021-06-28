@@ -1,0 +1,52 @@
+/* Skeleton */
+.root-container.skeleton {
+  min-width: 1200px;
+  height: 88vh;
+  padding: 10px 40px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+
+.form-main-title {
+  font-family: 'Hammersmith One', sans-serif;
+  letter-spacing: 1px;
+  font-size: 38px;
+  margin-bottom: 0px !important;
+  color: #786fa6;
+  animation: fade ease 1s;
+}
+
+.form-container {
+  -webkit-box-shadow: 0px 0px 15px 5px #BDBDBD; 
+  box-shadow: 0px 0px 10px 0px #bdbdbdc4; 
+  height: 575px;
+  width: 400px;
+  border-radius: 15px;
+  padding: 30px;
+  animation: fade ease 1s;
+}
+
+.form-title {
+  font-size: 20px;
+  margin: 0px !important;
+  color: #786fa6 !important;
+}
+
+.preview-card {
+  margin-top: 10px;
+  -webkit-box-shadow: 0px 0px 15px 5px #BDBDBD; 
+  box-shadow: 0px 0px 10px 0px #bdbdbdc4; 
+  border-radius: 10px;
+  flex-wrap: wrap;
+  animation: fade ease 1s;
+}
+
+@keyframes fade {
+    0% {
+      opacity: 0.1;
+    }
+    100% {
+      opacity: 1;
+    }
+  }

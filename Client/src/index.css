@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Hammersmith+One&display=swap');
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color:#303952;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  monospace;
+}
+
+h3 {
+  margin: 0;
+}
+
+.root-container {
+  min-width: 1200px;
+  height: 94vh;
+}
+
+
+.root-container.resume {
+  padding: 20px;
+}
+
+.link {
+  text-decoration: none;
+  opacity: 0.7;
+  transition: opacity ease 0.3s;
+  font-weight: 600;
+}
+
+.link:hover {
+ opacity: 1;
+}
+
+.alert-container {
+  z-index: 5;
+  position: absolute;
+  top: 70px;
+  left: 33%;
+  flex-wrap: wrap;
+  width: 500px;
+}
+
+.main-title {
+  font-family: 'Hammersmith One', sans-serif;
+  letter-spacing: 1px;
+  color: #574b90;
+  font-size: 38px;
+  animation: fade 800ms ease;
+}
+
+.head-title {
+  font-family: 'Hammersmith One', sans-serif;
+  letter-spacing: 1px;
+  color: #574b90;
+  font-size: 28px;
+  text-decoration: underline solid #574b90;
+}
+
+.resume-card {
+  -webkit-box-shadow: 0px 0px 15px 5px #BDBDBD; 
+  box-shadow: 0px 0px 10px 0px #bdbdbdc4;
+  height: 140px;
+  width: 120px;
+  cursor: pointer;
+}
+
+.resume-card-icon {
+  opacity: 0.4 !important;
+  height: 130px !important; 
+  width: 110px !important;
+  color:#BDBDBD !important;
+  transition: opacity ease 0.4s !important;
+}
+
+.resume-card-icon:hover {
+  opacity: 1 !important; 
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0.1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
