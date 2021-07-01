@@ -1,22 +1,28 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import { useHistory } from 'react-router'
 import { useSelector, useDispatch } from 'react-redux'
 import { userSelector } from '../../Store/userStore'
-import { loadingSelector} from '../../Store/alertStore'
-import { createResume, getResumesFromDb, resumesSelector } from '../../Store/resumeStore'
+import { createResume, getResumesFromDb, resumesSelector, setResume} from '../../Store/resumeStore'
 import LibraryAddOutlinedIcon from '@material-ui/icons/LibraryAddOutlined'
+import ListAltOutlinedIcon from '@material-ui/icons/ListAltOutlined'
 
 
 const Home = () => {    
 
     const user = useSelector(userSelector)
     const resumes = useSelector(resumesSelector)
-    const isLoading = useSelector(loadingSelector)
 
-    console.log(isLoading)
-
+    const [drafts, setDrafts] = useState([])
+    const [completed, setCompleted] = useState([])
+    
     const dispatch = useDispatch()
     const history = useHistory()
+
+    useEffect(() => {
+        setDrafts(resumes.filter(e => e.state === 'draft'))
+        setCompleted(resumes.filter(e => e.state === 'completed'))
+    },[resumes])
+
 
     useEffect(() => {
         if (user) {
@@ -24,24 +30,75 @@ const Home = () => {
         }
     }, [dispatch, user])
 
-
     return (
         <div className='root-container resume'>
-            <div style={{width:'300px'}}>
-                <h1 className='head-title'>Create a new resume</h1>
-                <div style={{display:'flex', justifyContent:'center'}}>
-                    <div className='resume-card' 
+            <>
+                <h2 className='head-title'>Create a new resume</h2>
+                <div className='resume-card' 
+                    style={{display:'flex', justifyContent:'center'}}
+                    onClick={() => {
+                        dispatch(createResume({userId: user._id, state: 'draft'}))
+                        history.push('/resume/form/main-infos')}
+                    }
+                >
+                    <LibraryAddOutlinedIcon className='resume-card-icon'/>
+                </div>
+            </>
+           {completed.length > 0 &&
+            <div>
+                <h2 className='head-title'>Your completed resumes</h2>
+                <div  style={{display:'flex', paddingRight:'50px', flexWrap:'wrap'}}>
+                {drafts.map((e, i) => 
+                    <div className='resume-card'
+                        key={i}
+                        style={{display:'flex', justifyContent:'space-between', flexDirection:'column', alignItems:'center'}}
                         onClick={() => {
-                            dispatch(createResume({userId: user._id, state: 'draft'}))
+                            dispatch(setResume(e))
                             history.push('/resume/form/main-infos')}
                         }
                     >
-                        <LibraryAddOutlinedIcon className='resume-card-icon'/>
+                        <ListAltOutlinedIcon className='resume-card-icon'/>
+                        <div style={{backgroundColor:'#786fa6' , width:'100%', borderBottomLeftRadius:'10px', borderBottomRightRadius:'10px'}}>
+                            <p style={{color:'white', textAlign:'center', flexWrap:'wrap', fontSize:'15px'}}>
+                                { e.position 
+                                    ? e.position
+                                    : 'Your resume'
+                                }
+                            </p>
+                        </div>
                     </div>
+                )}
                 </div>
             </div>
-            {resumes.length > 0 &&  <div>{resumes.length}</div>}
-            
+           }
+           {drafts.length > 0 &&
+            <div style={{marginTop:'50px'}}>
+                <h2 className='head-title'>Resume to be complete</h2>
+                <div  style={{display:'flex', paddingRight:'50px', flexWrap:'wrap'}}>
+                    {drafts.map((e, i) => 
+                        <div className='resume-card'
+                            style={{display:'flex', justifyContent:'space-between', flexDirection:'column', alignItems:'center'}}
+                            key={i}
+                            onClick={() => {
+                                dispatch(setResume(e))
+                                history.push('/resume/form/main-infos')}
+                            }
+                        >
+                            <ListAltOutlinedIcon className='resume-card-icon'/>
+                            <div style={{backgroundColor:'#786fa6' , width:'100%', borderBottomLeftRadius:'10px', borderBottomRightRadius:'10px'}}>
+                                <p style={{color:'white', textAlign:'center', flexWrap:'wrap', fontSize:'15px'}}>
+                                { e.position 
+                                    ? e.position
+                                    : 'Your resume'
+                                }
+                                </p>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
+           }
+           
         </div>
     )
 }

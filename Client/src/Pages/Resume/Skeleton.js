@@ -23,7 +23,7 @@ const Skeleton = ({children, ...props}) => {
                 </div>
             }
         </div>
-        <div className='form-container' style={{width:'400px', margin:' 50px  0px 0px 50px'}}>
+        <div className='form-container' style={{width:'400px', margin:' 30px  0px 0px 50px'}}>
             {children}
         </div>
         {next && next !== '' && 

@@ -49,10 +49,13 @@ export const createResume = payload => async dispatch => {
     }
 }
 
-export const updateResumeToDb = (payload, id )=> async dispatch => {
+export const updateResumeToDb = (payload, id, from )=> async dispatch => {
 
+   let url =  from === 'experiences' ? `${process.env.REACT_APP_API_URL}/resume/experiences/${id}` : `${process.env.REACT_APP_API_URL}/resume/${id}`
+    console.log(url)
+    
     try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/resume/${id}`, {
+        const response = await fetch(url, {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json',

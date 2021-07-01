@@ -1,7 +1,7 @@
 /* Skeleton */
 .root-container.skeleton {
   min-width: 1200px;
-  height: 88vh;
+  height: 100% !important;
   padding: 10px 40px;
   display: flex;
   justify-content: flex-start;
@@ -20,7 +20,7 @@
 .form-container {
   -webkit-box-shadow: 0px 0px 15px 5px #BDBDBD; 
   box-shadow: 0px 0px 10px 0px #bdbdbdc4; 
-  height: 575px;
+  min-height: 575px;
   width: 400px;
   border-radius: 15px;
   padding: 30px;

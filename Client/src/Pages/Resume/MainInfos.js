@@ -134,7 +134,7 @@ const MainInfos = props => {
                 />
             </div>
             <div style={{marginTop:'30px'}}>
-                <h3 >Email</h3>
+                <h3 >Email contact</h3>
                 <TextField 
                     error={emailError}
                     helperText={emailError && 'Invalid email format'}

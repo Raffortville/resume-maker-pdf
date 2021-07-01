@@ -39,7 +39,7 @@ const ResumeInfos = props => {
     const handleSubmit = () => {
         if (isStringEmpty(resumeInfos.position)) return setPositionError(true)
         else {
-            dispatch(updateResumeToDb(resumeInfos, resumeHolded._id))
+            dispatch(updateResumeToDb(resumeInfos, resumeHolded._id, 'resumeInfos'))
             setTimeout(() =>  history.push('/resume/form/work-experience-infos'), 2000) 
         }
     }
