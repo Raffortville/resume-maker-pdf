@@ -5,8 +5,8 @@
   padding: 10px 40px;
   display: flex;
   justify-content: flex-start;
+  animation: ease 1s fade;
 }
-
 
 .form-main-title {
   font-family: 'Hammersmith One', sans-serif;
@@ -14,6 +14,14 @@
   font-size: 38px;
   margin-bottom: 0px !important;
   color: #786fa6;
+  animation: fade ease 1s;
+}
+
+.summary-title {
+  font-family: 'Hammersmith One', sans-serif;
+  letter-spacing: 1px;
+  font-size: 18px;
+  margin-bottom: 0px !important;
   animation: fade ease 1s;
 }
 
@@ -25,6 +33,29 @@
   border-radius: 15px;
   padding: 30px;
   animation: fade ease 1s;
+}
+
+.summary-resume-card {
+  -webkit-box-shadow: 0px 0px 15px 5px #BDBDBD; 
+  box-shadow: 0px 0px 10px 0px #bdbdbdc4;
+  border-radius: 15px;
+  margin-top: 20px;
+  width: 600px;
+  padding: 15px 10px !important;
+}
+
+.summary-icon {
+  opacity: 0.7;
+  transition: opacity ease 0.2s !important;
+  cursor: pointer;
+}
+
+.summary-icon.success {
+  color: #a8db24;
+}
+
+.summary-icon.incomplete {
+  color: 	#DC143C;
 }
 
 .form-title {
@@ -42,11 +73,94 @@
   animation: fade ease 1s;
 }
 
+.button-upload {
+  width: 140px ;
+  height: 40px;
+  border: dashed 1px #786fa6 ;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity ease 0.2s;
+}
+
+.button-upload:hover {
+  opacity: 1;
+}
+
+.button-uplaod-icon {
+  color: #786fa6 !important;
+}
+
+.previewColor {
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+  animation: fade 1s ease;
+}
+
+.previewPic {
+  display:flex;
+  align-items: center;
+  animation: fade 1s ease;
+}
+
+.imgAvatar {
+  height: 65px !important;
+  width: 65px !important;
+  border-radius: 50% !important;
+}
+
+.colorPick{
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.4s ease;
+}
+
+.colorPick.preview:hover{
+  cursor: none !important;
+  box-shadow: none !important;
+}
+
+.colorPick:hover {
+  box-shadow: 5px 5px 5px 0px #bdbdbdc4, inset 4px 4px 15px 0px #bdbdbdc4, 5px 5px 15px 5px #bdbdbdc4;
+  transition: all 0.4s ease;
+}
+
+.colorPick.grey {
+  background-color: #D2D3D5;
+}
+
+.colorPick.blue {
+  background-color: #0D8FCD;
+}
+
+.colorPick.maroon {
+  background-color: #6A4952;
+}
+
+.colorPick.sageGreen {
+  background-color: #C5D8C4;
+}
+
+.colorPick.berry {
+  background-color: #847A9F;
+}
+
+.colorPick.sorbet{
+  background-color: #BDE5E1;
+}
+
 @keyframes fade {
-    0% {
-      opacity: 0.1;
-    }
-    100% {
-      opacity: 1;
-    }
+  0% {
+    opacity: 0.1;
   }
+  100% {
+    opacity: 1;
+  }
+}

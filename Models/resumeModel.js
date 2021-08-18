@@ -21,7 +21,9 @@ const resumeSchema = new mongoose.Schema({
     experiences: Array,
     createdtAt : Date,
     state: String,
-    experiences : [experienceSchema]
+    experiences : [experienceSchema],
+    profilPic: String,
+    colorMain: String
 })
 
 const resumeModel = mongoose.model('resume', resumeSchema)

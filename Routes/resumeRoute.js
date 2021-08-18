@@ -21,7 +21,6 @@ router.post('/', async (req,res, next) => {
 
 })
 
-
 router.put('/:id', async (req, res, next) => {
 
     try {
@@ -55,6 +54,17 @@ router.get('/:id', async (req, res, next) => {
     try {
         const resumes = await resumeModel.find({userId: req.params.id})
         return success(res, resumes)
+        
+    } catch (error) {
+        next({status: 400, message: "failed to save resume"})
+        console.log(error)
+    }
+})
+
+router.delete('/:id', async (req, res, next) => {
+    try {
+        await resumeModel.deleteOne({_id: req.params.id})
+        return success(res, {})
         
     } catch (error) {
         next({status: 400, message: "failed to save resume"})

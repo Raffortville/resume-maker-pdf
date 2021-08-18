@@ -11,11 +11,12 @@ const resumeSlice = createSlice({
         setResumes : ((state, {payload}) => {state.resumes = payload}),
         setResume : ((state, {payload}) => {state.resume = payload}),
         updateResume : ((state, {payload}) => {state.resume = {...state.resume, ...payload}}),
+        deleteResume: ((state, {payload}) => {state.resumes = state.resumes.filter(resume => resume._id !== payload)}),
         selectedResume : ((state, payload) => {state.selectedResume = payload })
     }
 })
 
-export const {setResume, setResumes, selectedResume, updateResume} = resumeSlice.actions
+export const {setResume, setResumes, selectedResume, updateResume, deleteResume} = resumeSlice.actions
 
 export const createResume = payload => async dispatch => {
     dispatch(setLoading(true))
@@ -45,14 +46,12 @@ export const createResume = payload => async dispatch => {
         dispatch(setLoading(false))
         dispatch(setAlert({message: 'Internal problem, try later', type: 'error'}))
         setTimeout(() =>  dispatch(cleanAlert()), 3000)
-        
     }
 }
 
 export const updateResumeToDb = (payload, id, from )=> async dispatch => {
 
    let url =  from === 'experiences' ? `${process.env.REACT_APP_API_URL}/resume/experiences/${id}` : `${process.env.REACT_APP_API_URL}/resume/${id}`
-    console.log(url)
     
     try {
         const response = await fetch(url, {
@@ -65,9 +64,9 @@ export const updateResumeToDb = (payload, id, from )=> async dispatch => {
     })
 
     if(response.status === 200) {
-        dispatch(updateResume(payload))
+        from !== 'experiences' ?  dispatch(updateResume(payload)) : dispatch(updateResume({experiences: payload}))
         dispatch(setAlert({message: 'Your infos has been saved successfully', type: 'success'}))
-        setTimeout(() =>  dispatch(cleanAlert()), 2300)
+        setTimeout(() =>  dispatch(cleanAlert()), 2000)
 
     } else {
         dispatch(setAlert({message: 'Failed to save your infos, try later', type: 'error'}))
@@ -101,6 +100,33 @@ export const getResumesFromDb = payload => async dispatch => {
             setTimeout(() =>  dispatch(cleanAlert()), 3000)
         }
 
+    } catch (error) {
+        dispatch(setAlert({message: 'Internal problem, try later', type: 'error'}))
+        setTimeout(() =>  dispatch(cleanAlert()), 3000)
+    }
+}
+
+export const deleteResumeFromDb = payload => async dispatch => {
+    try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/resume/${payload}`, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+
+        if ( response.status === 200) {
+            dispatch(deleteResume(payload))
+            dispatch(setAlert({message: 'Your resume has been removed successfully', type: 'success'}))
+            setTimeout(() =>  dispatch(cleanAlert()), 2000)
+
+        } else {
+            dispatch(setAlert({message: 'Unable to delete your resume, try later please', type: 'error'}))
+            setTimeout(() =>  dispatch(cleanAlert()), 3000)
+        }
+
+        
     } catch (error) {
         dispatch(setAlert({message: 'Internal problem, try later', type: 'error'}))
         setTimeout(() =>  dispatch(cleanAlert()), 3000)

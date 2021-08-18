@@ -1,27 +1,32 @@
 import React, {useState, useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import Skeleton from './Skeleton'
-import { updateResumeToDb } from '../../Store/resumeStore'
-import {resumeSelector} from '../../Store/resumeStore'
+import { useHistory } from 'react-router'
+import Skeleton from '../Skeleton'
+import { updateResumeToDb } from '../../../Store/resumeStore'
+import {resumeSelector} from '../../../Store/resumeStore'
 import { TextField, TextareaAutosize, Button } from '@material-ui/core'
 import SaveIcon from '@material-ui/icons/Save'
 import AddCircleIcon from '@material-ui/icons/AddCircle'
-import { isStringEmpty } from '../../Helpers/checkFormat'
+import RemoveCircleIcon from '@material-ui/icons/RemoveCircle'
+import { isStringEmpty } from '../../../Helpers/checkFormat'
+
+import '../Resume.css'
 
 const ExperiencesInfos = props => { 
 
+    const history = useHistory()
     const dispatch = useDispatch()
     const resumeHolded = useSelector(resumeSelector)
 
     const initialState = {
-        company: resumeHolded.company || '',
-        period: resumeHolded.period || '',
-        place: resumeHolded.place || '',
-        occupiedPosition: resumeHolded.occupiedPosition || '',
-        achievements: resumeHolded.achievements || '',
-        stack: resumeHolded.stack || '',
-        description: resumeHolded.description || '',
-        project: resumeHolded.project || '',
+        company: '',
+        period:  '',
+        place: '',
+        occupiedPosition: '',
+        achievements: '',
+        stack:  '',
+        description:  '',
+        project: '',
         companyError : false,
         periodError: false,
         placeError: false,
@@ -29,14 +34,27 @@ const ExperiencesInfos = props => {
     }
    
     const [experiences, setExperiences] = useState([])
+    const [disabled, setDisabled] = useState(true)
 
     useEffect(() => {
-        resumeHolded.experiences.length > 0 ? setExperiences(resumeHolded.experiences) : setExperiences([initialState])
-    }, [resumeHolded])
+        resumeHolded.experiences.length > 0 
+        ? setExperiences(resumeHolded.experiences.map(exp => 
+            exp = {...exp,
+            companyError : false,
+            periodError: false,
+            placeError: false,
+            occupiedPositionError: false
+        })) 
+        : setExperiences([initialState])
+    }, [])
 
-
+    useEffect(() => {
+        if(experiences.every(exp => exp.company !== '' & exp.place !== '' & exp.occupiedPosition !== '' & exp.period !== '')){
+           setDisabled(false)
+        } else setDisabled(true)
+    },[experiences])
+  
     const handleChange = (e, index) => {
-
        const {value, name} = e.target
 
         setExperiences(experiences.map((experience, i) => {
@@ -49,7 +67,7 @@ const ExperiencesInfos = props => {
 
     const handleSubmit = () => {
 
-        setExperiences(experiences.map((exp) => {
+        let experiencesCopy = experiences.map(exp => {
             return  exp = 
                 {...exp, 
                     companyError: isStringEmpty(exp.company),
@@ -58,17 +76,22 @@ const ExperiencesInfos = props => {
                     periodError : isStringEmpty(exp.period)
                 }
             }
-        ))
+        )
 
-       if(experiences.every(exp => !exp.companyError || !exp.placeError || !exp.occupiedPositionError || !exp.periodError)) {
+        setExperiences(experiencesCopy)
+     
+      if(!disabled) {
             const filtredExperiences = experiences.map(({companyError, placeError, occupiedPositionError, periodError, ...rest}) => rest)
             dispatch(updateResumeToDb(filtredExperiences, resumeHolded._id, 'experiences'))
-        }
+            window.scrollTo(0,0)
+            setTimeout(() =>  history.push('/resume/form/medias'), 2000) 
+        }   
     }
-
+  
     return (
         <Skeleton 
             mainTitle='About your work experiences'
+            next='/resume/form/medias'
         >
             {experiences.map((experience, i) =>
                 <div key={i} style={i !== 0 ? {marginTop:'30px'} : {}}>
@@ -83,7 +106,7 @@ const ExperiencesInfos = props => {
                         fullWidth  
                         style={{color:'#574b90'}}
                         name='company'
-                        onChange={(e) => {
+                        onChange={e => {
                             handleChange(e, i)
                         }}
                     />
@@ -188,19 +211,33 @@ const ExperiencesInfos = props => {
                             }}
                         />
                     </div>
-                    {experiences.length < 3 &&
-                        <div style={{display: 'flex', alignItems:'center', margin:'10px 0px'}}>
-                            <AddCircleIcon 
-                                style={{color:'#574b90', fontSize:'30px', marginRight:'10px', cursor:'pointer'}}
-                                onClick={() => setExperiences([...experiences, initialState])}
-
-                            /> Add another work experience ?
-                        </div>
-                    }
+                    <div style={{display: 'flex', alignItems:'center', margin:'10px 0px'}}>
+                        {( experiences.length > 1 && i === 0 ) || experiences.length === 3 
+                            ? 
+                                <>
+                                    <RemoveCircleIcon
+                                        style={{color:'#574b90', fontSize:'30px', marginRight:'10px', cursor:'pointer'}}
+                                        onClick={() => setExperiences(experiences.filter((exp, index) => i !== index))}
+                                    /> 
+                                    Remove this work experience ? 
+                                </>
+                               
+                            : 
+                                <> 
+                                    <AddCircleIcon 
+                                        style={{color:'#574b90', fontSize:'30px', marginRight:'10px', cursor:'pointer'}}
+                                        onClick={() => setExperiences([...experiences, initialState])}
+                                    /> 
+                                    Add another work experience ? 
+                                </>
+                        }
+                    </div>
+                    
                 </div>
             )}
             <div style={{marginTop:'30px', display:'flex', justifyContent:'flex-end'}}>
                 <Button 
+                    disabled={disabled}
                     style={{color:'#574b90'}}
                     startIcon={<SaveIcon style={{color:'#574b90', fontSize:'30px'}}/>}
                     variant='outlined'

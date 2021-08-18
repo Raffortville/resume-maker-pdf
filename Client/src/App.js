@@ -47,7 +47,7 @@ function App() {
         : <>
           <div className='alert-container'>
               {alert?.message !== '' &&
-                <Alert severity={alert.type || 'info'}>{alert.message}</Alert>
+                <Alert elevation={2} style={{zIndex:'3'}} severity={alert.type || 'info'}>{alert.message}</Alert>
               }
             </div>
             <Header/>

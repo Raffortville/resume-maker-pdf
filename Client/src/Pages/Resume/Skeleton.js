@@ -16,29 +16,35 @@ const Skeleton = ({children, ...props}) => {
     <div className='root-container skeleton'>
         <div style={{ width:'400px'}}>
             <h2 className='form-main-title'>{mainTitle}</h2>
-            <h3 className='form-title' style={{paddingTop:'20px'}}>Preview</h3>
-            {previewChips &&
-                <div style={{marginTop:'30px'}}>
-                    <PreviewChips previews={previewChips}/>
-                </div>
-            }
         </div>
         <div className='form-container' style={{width:'400px', margin:' 30px  0px 0px 50px'}}>
             {children}
         </div>
-        {next && next !== '' && 
-        <div style={{display:'flex', justifyContent:'center', alignItems:'flex-end', marginLeft:'200px'}}> 
-            <Tooltip title='Pass and go without saving'>
-                <Button 
-                    endIcon={<ArrowForwardIcon style ={{color:'#574b90'}}/>} 
-                    style ={{color:'#574b90', fontWeight:'600'}}
-                    onClick={()=>  history.push(next)}
-                >
-                    Next
-                </Button>
-            </Tooltip>
-         </div>
-        }
+        <div style={{ width:'400px', marginTop:'30px', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'space-between'}}>
+            <div>
+                <h3 className='form-title' style={{paddingTop:'20px', textAlign:'center'}}>Preview</h3>
+                {previewChips &&
+                    <div style={{marginTop:'30px', width:'370px'}}>
+                        <PreviewChips previews={previewChips}/>
+                    </div>
+                }
+            </div>
+           
+            {next && next !== '' && 
+                <div> 
+                    <Tooltip title='Pass and go without saving'>
+                        <Button 
+                            endIcon={<ArrowForwardIcon style ={{color:'#574b90'}}/>} 
+                            style ={{color:'#574b90', fontWeight:'600'}}
+                            onClick={()=>  history.push(next)}
+                        >
+                            Next
+                        </Button>
+                    </Tooltip>
+                </div>
+            }
+        </div>
+        
     </div>
     )
 }

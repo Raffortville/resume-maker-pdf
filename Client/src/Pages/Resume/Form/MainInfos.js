@@ -1,15 +1,15 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { useHistory } from 'react-router'
 import {useSelector, useDispatch} from 'react-redux'
-import {userSelector, updateUserToDB} from '../../Store/userStore'
-import Skeleton from './Skeleton'
+import {userSelector, updateUserToDB} from '../../../Store/userStore'
+import Skeleton from '../Skeleton'
 import TextField from '@material-ui/core/TextField'
 import SaveIcon from '@material-ui/icons/Save'
 import { Button, Tooltip } from '@material-ui/core'
-import {checkInputFormat, isStringEmpty} from '../../Helpers/checkFormat'
+import {checkInputFormat, isStringEmpty} from '../../../Helpers/checkFormat'
 import ClearIcon from '@material-ui/icons/Clear';
 
-import './Resume.css'
+import '../Resume.css'
 
 const MainInfos = props => {
 
@@ -32,6 +32,13 @@ const MainInfos = props => {
     const [lastNameError, setLastNameError] = useState(false)
     const [firstNamerror, setFirstNameError] = useState(false)
     const [emailError, setEmailError] = useState(false)
+    const [disabled, setDisabled] = useState(true)
+
+    useEffect(() => {
+        if(!isStringEmpty(personalInfo.firstName && !isStringEmpty(personalInfo.lastName) & checkInputFormat(personalInfo.emailPro, 'email'))) {
+            setDisabled(false)
+        } else setDisabled(true)
+    }, [])
 
     const handleChange = (e, type) => {
         const {name, value} = e.target
@@ -54,7 +61,6 @@ const MainInfos = props => {
         }
     }
    
-
     const submitPersonnalInfo = () => {
 
         if(isStringEmpty(personalInfo.firstName)) {
@@ -171,6 +177,7 @@ const MainInfos = props => {
             <div style={{marginTop:'30px', display:'flex', justifyContent:'flex-end'}}>
                 <Button 
                     style={{color:'#574b90'}}
+                    disabled={disabled}
                     startIcon={<SaveIcon style={{color:'#574b90', fontSize:'30px'}}/>}
                     variant='outlined'
                     onClick={(e) => {

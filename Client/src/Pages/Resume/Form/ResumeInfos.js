@@ -1,12 +1,12 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useHistory } from 'react-router'
-import { updateResumeToDb, resumeSelector } from '../../Store/resumeStore'
+import { updateResumeToDb, resumeSelector } from '../../../Store/resumeStore'
 import { TextField , Button, Tooltip} from '@material-ui/core'
 import SaveIcon from '@material-ui/icons/Save'
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
-import Skeleton from './Skeleton'
-import {isStringEmpty} from '../../Helpers/checkFormat'
+import Skeleton from '../Skeleton'
+import {isStringEmpty} from '../../../Helpers/checkFormat'
 
 
 const ResumeInfos = props => {
@@ -19,6 +19,7 @@ const ResumeInfos = props => {
     const [postionError, setPositionError] = useState(false)
     const [skill, setSkill] = useState('')
     const [softSkill,  setSoftSkill] = useState('')
+    const [disabled, setDisabled] = useState(true)
    
 
     const initialState = {
@@ -43,6 +44,11 @@ const ResumeInfos = props => {
             setTimeout(() =>  history.push('/resume/form/work-experience-infos'), 2000) 
         }
     }
+
+    useEffect(() => {
+        if (isStringEmpty(resumeInfos.position)) setDisabled(true)
+        else setDisabled(false)
+    }, [resumeInfos])
 
     return (
         <Skeleton 
@@ -82,23 +88,19 @@ const ResumeInfos = props => {
                     fullWidth   
                     style={{color:'#574b90'}}
                     name='portfolio'
-                    onChange={(e) =>{ 
-                        handleChange(e, 'text')
-                    }}
+                    onChange={(e) => handleChange(e, 'text')}
                 />
             </div>
             <div style={{marginTop:'30px'}}>
                 <h3 >Social Medias Links </h3>
                 <TextField 
                     helperText='LinkedIn, Twitter, etc...'
-                    value={resumeInfos.portfolio}
+                    value={resumeInfos.socialMedias}
                     size='small' 
                     fullWidth   
                     style={{color:'#574b90'}}
                     name='socialMedias'
-                    onChange={(e) =>{ 
-                        handleChange(e, 'text')
-                    }}
+                    onChange={(e) => handleChange(e, 'text')}
                 />
             </div>
             <div style={{marginTop:'30px', position:'relative'}}>
@@ -148,7 +150,8 @@ const ResumeInfos = props => {
                 </Tooltip>
             </div>
             <div style={{marginTop:'30px', display:'flex', justifyContent:'flex-end'}}>
-                <Button 
+                <Button
+                    disabled={disabled}
                     style={{color:'#574b90'}}
                     startIcon={<SaveIcon style={{color:'#574b90', fontSize:'30px'}}/>}
                     variant='outlined'

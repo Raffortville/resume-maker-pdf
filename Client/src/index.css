@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Hammersmith+One&display=swap');
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -11,6 +15,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   color:#303952;
 }
+
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
@@ -74,7 +79,6 @@ h3 {
   margin: 5px;
   height: 145px;
   width: 210px;
-  cursor: pointer;
 }
 
 .resume-card-icon {
@@ -83,6 +87,17 @@ h3 {
   width: 130px !important;
   color:#BDBDBD !important;
   transition: opacity ease 0.4s !important;
+}
+
+.resume-card-delete-icon {
+  color: #786fa6;
+  opacity: 0.7;
+  transition: opacity ease 0.2s !important;
+  cursor: pointer;
+}
+
+.resume-card-delete-icon:hover {
+  opacity: 1;
 }
 
 .divider {
