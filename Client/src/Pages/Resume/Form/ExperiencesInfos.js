@@ -9,6 +9,7 @@ import SaveIcon from '@material-ui/icons/Save'
 import AddCircleIcon from '@material-ui/icons/AddCircle'
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle'
 import { isStringEmpty } from '../../../Helpers/checkFormat'
+import useCheckResumeState from '../useCheckResumeState'
 
 import '../Resume.css'
 
@@ -53,6 +54,8 @@ const ExperiencesInfos = props => {
            setDisabled(false)
         } else setDisabled(true)
     },[experiences])
+
+    const {resumeState} = useCheckResumeState()
   
     const handleChange = (e, index) => {
        const {value, name} = e.target
@@ -82,7 +85,7 @@ const ExperiencesInfos = props => {
      
       if(!disabled) {
             const filtredExperiences = experiences.map(({companyError, placeError, occupiedPositionError, periodError, ...rest}) => rest)
-            dispatch(updateResumeToDb(filtredExperiences, resumeHolded._id, 'experiences'))
+            dispatch(updateResumeToDb({experiences: filtredExperiences, ...resumeState === "complete" && {state: 'complete'}},resumeHolded._id, 'experiences'))
             window.scrollTo(0,0)
             setTimeout(() =>  history.push('/resume/form/medias'), 2000) 
         }   

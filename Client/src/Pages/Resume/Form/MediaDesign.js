@@ -9,6 +9,7 @@ import { Button } from '@material-ui/core'
 import { isStringEmpty } from '../../../Helpers/checkFormat'
 import { sendPicToStorage } from '../../../Helpers/services'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import useCheckResumeState from '../useCheckResumeState'
 
 import '../Resume.css'
 
@@ -22,6 +23,8 @@ const FinalStep = props => {
     const [previewPic, setPreviewPic] = useState(resume.profilPic)
     const [disabled, setDisabled] = useState(true)
     const [loading, setLoading] = useState(false)
+
+    const {resumeState} = useCheckResumeState()
 
     useEffect(() => {
         if (!isStringEmpty(previewPic) || !isStringEmpty(previewColor)) {
@@ -39,7 +42,7 @@ const FinalStep = props => {
     }
 
     const submitMediaInfos =  () => {
-        dispatch(updateResumeToDb({profilPic:previewPic, colorMain: previewColor}, resume._id, 'media'))
+        dispatch(updateResumeToDb({profilPic:previewPic, colorMain: previewColor, ...resumeState === 'complete' && {state: 'complete'}}, resume._id, 'media'))
         setTimeout(() => history.push('/resume/summary'), 2000); 
     }
 

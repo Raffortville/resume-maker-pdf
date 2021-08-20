@@ -25,7 +25,7 @@ const Home = () => {
 
     useEffect(() => {
         setDrafts(resumes.filter(e => e.state === 'draft'))
-        setCompleted(resumes.filter(e => e.state === 'completed'))
+        setCompleted(resumes.filter(e => e.state === 'complete'))
     },[resumes])
 
     useEffect(() => {
@@ -45,31 +45,48 @@ const Home = () => {
                         history.push('/resume/form/main-infos')}
                     }
                 >
-                    <LibraryAddOutlinedIcon className='resume-card-icon'/>
+                    <LibraryAddOutlinedIcon className='resume-card-icon' style={{cursor:'pointer'}}/>
                 </div>
             </>
            {completed.length > 0 &&
             <div>
                 <h2 className='head-title'>Your completed resumes</h2>
                 <div  style={{display:'flex', paddingRight:'50px', flexWrap:'wrap'}}>
-                {drafts.map((e, i) => 
+                {completed.map((e, i) => 
                     <div className='resume-card'
                         key={i}
                         style={{display:'flex', justifyContent:'space-between', flexDirection:'column', alignItems:'center'}}
-                        onClick={() => {
-                            dispatch(setResume(e))
-                            history.push('/resume/form/main-infos')}
-                        }
                     >
-                        <ListAltOutlinedIcon className='resume-card-icon'/>
-                        <div style={{backgroundColor:'#786fa6' , width:'100%', borderBottomLeftRadius:'10px', borderBottomRightRadius:'10px'}}>
-                            <p style={{color:'white', textAlign:'center', flexWrap:'wrap', fontSize:'15px'}}>
-                                { e.position 
-                                    ? e.position
-                                    : 'Your resume'
-                                }
-                            </p>
+                        <div 
+                            style={{alignSelf:'flex-end'}}
+                            onClick={()=> {
+                                setShowDialog(true)
+                                setSelectedId(e._id)
+                            }}
+                        >
+                            <Tooltip title='Delete resume'>
+                                <HighlightOffIcon className='resume-card-delete-icon'/>
+                            </Tooltip>
                         </div>
+                        <Tooltip
+                            onClick={() => {
+                                dispatch(setResume(e))
+                                history.push(`/resume/final/${e._id}`)
+                            }}
+                            title='Edit your resume' 
+                            placement='top'
+                            style={{cursor:'pointer'}}
+                        >
+                            <ListAltOutlinedIcon className='resume-card-icon'/>
+                        </Tooltip>
+                            <div style={{backgroundColor:'#786fa6' , width:'100%', borderBottomLeftRadius:'10px', borderBottomRightRadius:'10px'}}>
+                                <p style={{color:'white', textAlign:'center', flexWrap:'wrap', fontSize:'15px'}}>
+                                    { e.position 
+                                        ? e.position
+                                        : 'Your resume'
+                                    }
+                                </p>
+                            </div>
                     </div>
                 )}
                 </div>
@@ -98,8 +115,8 @@ const Home = () => {
                                 <Tooltip  
                                     onClick={() => {
                                         dispatch(setResume(e))
-                                        history.push('/resume/form/main-infos')}
-                                    } 
+                                        history.push('/resume/form/main-infos')
+                                    }} 
                                     title='Complete your resume' 
                                     placement='top'
                                     style={{cursor:'pointer'}}

@@ -33,22 +33,6 @@ router.put('/:id', async (req, res, next) => {
     }
 })
 
-router.put('/experiences/:id', async (req, res, next) => {
-
-    try {
-        await resumeModel.updateOne({_id:req.params.id}, {
-            '$set' : {experiences : req.body}
-        })
-
-        return success(res, {})
-        
-    } catch (error) {
-        next({status: 400, message: "failed to save resume"})
-        console.log(error)
-    }
-})
-
-
 router.get('/:id', async (req, res, next) => {
 
     try {

@@ -7,6 +7,7 @@ import SaveIcon from '@material-ui/icons/Save'
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
 import Skeleton from '../Skeleton'
 import {isStringEmpty} from '../../../Helpers/checkFormat'
+import useCheckResumeState from '../useCheckResumeState'
 
 
 const ResumeInfos = props => {
@@ -15,12 +16,11 @@ const ResumeInfos = props => {
     const history = useHistory()
 
     const resumeHolded = useSelector(resumeSelector)
-   
+
     const [postionError, setPositionError] = useState(false)
     const [skill, setSkill] = useState('')
     const [softSkill,  setSoftSkill] = useState('')
     const [disabled, setDisabled] = useState(true)
-   
 
     const initialState = {
         position: resumeHolded.position || '',
@@ -32,16 +32,19 @@ const ResumeInfos = props => {
 
     const [resumeInfos, setResumeInfos] = useState(initialState)
 
+    const {resumeState} = useCheckResumeState()
+
     const handleChange = e => {
         const {name, value} = e.target
         setResumeInfos({...resumeInfos, [name]: value})
     }
 
     const handleSubmit = () => {
-        if (isStringEmpty(resumeInfos.position)) return setPositionError(true)
+      if (isStringEmpty(resumeInfos.position)) return setPositionError(true)
         else {
-            dispatch(updateResumeToDb(resumeInfos, resumeHolded._id, 'resumeInfos'))
-            setTimeout(() =>  history.push('/resume/form/work-experience-infos'), 2000) 
+            resumeState === 'complete' && setResumeInfos({...resumeInfos, state: 'complete'})
+            dispatch(updateResumeToDb(resumeInfos, resumeHolded._id))
+            setTimeout(() =>  history.push('/resume/form/work-experience-infos'), 2000)
         }
     }
 
@@ -49,6 +52,7 @@ const ResumeInfos = props => {
         if (isStringEmpty(resumeInfos.position)) setDisabled(true)
         else setDisabled(false)
     }, [resumeInfos])
+    
 
     return (
         <Skeleton 

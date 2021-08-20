@@ -49,9 +49,9 @@ export const createResume = payload => async dispatch => {
     }
 }
 
-export const updateResumeToDb = (payload, id, from )=> async dispatch => {
+export const updateResumeToDb = (payload, id)=> async dispatch => {
 
-   let url =  from === 'experiences' ? `${process.env.REACT_APP_API_URL}/resume/experiences/${id}` : `${process.env.REACT_APP_API_URL}/resume/${id}`
+   let url = `${process.env.REACT_APP_API_URL}/resume/${id}`
     
     try {
         const response = await fetch(url, {
@@ -64,7 +64,7 @@ export const updateResumeToDb = (payload, id, from )=> async dispatch => {
     })
 
     if(response.status === 200) {
-        from !== 'experiences' ?  dispatch(updateResume(payload)) : dispatch(updateResume({experiences: payload}))
+        dispatch(updateResume(payload))
         dispatch(setAlert({message: 'Your infos has been saved successfully', type: 'success'}))
         setTimeout(() =>  dispatch(cleanAlert()), 2000)
 
