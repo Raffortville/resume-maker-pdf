@@ -6,7 +6,7 @@ import MainInfos from '../Pages/Resume/Form/MainInfos'
 import ExperiencesInfos from '../Pages/Resume/Form/ExperiencesInfos'
 import FinalStep from '../Pages/Resume//Form/MediaDesign'
 import SummaryResume from '../Pages/Resume/Summary'
-import ResumeCheck from '../Components/Resume/Form/Final/ResumeCheck'
+import ResumeCheck from '../Pages/Resume/Final/ResumeCheck'
 
 const MainRoutes = props => {
 
