@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useHistory } from 'react-router'
 import { updateResumeToDb, resumeSelector } from '../../../Store/resumeStore'
-import { TextField , Button, Tooltip} from '@material-ui/core'
+import { TextField , Button, Tooltip, TextareaAutosize} from '@material-ui/core'
 import SaveIcon from '@material-ui/icons/Save'
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
 import Skeleton from '../Skeleton'
@@ -25,6 +25,7 @@ const ResumeInfos = props => {
     const initialState = {
         position: resumeHolded.position || '',
         portfolio: resumeHolded.portfolio || '',
+        introduction: resumeHolded.introduction || '',
         socialMedias : resumeHolded.socialMedia || '' ,
         expertises : resumeHolded.expertises || [],
         softSkills : resumeHolded.softSkills || [],
@@ -84,6 +85,18 @@ const ResumeInfos = props => {
                         handleChange(e,'text')
                     }}
                 />
+            <div style={{marginTop:'30px'}}>
+                <h3>Introduction</h3>
+                <TextareaAutosize
+                    style={{width:'90%', marginTop:'5px'}}
+                    name='introduction'
+                    rowsMax={6}
+                    rowsMin={3}
+                    placeholder="Tell about yourself in few words"
+                    defaultValue={resumeInfos.introduction}
+                    onChange={e => handleChange(e, 'text')}
+                />
+            </div>
             <div style={{marginTop:'30px'}}>
                 <h3 >Portfolio / Website </h3>
                 <TextField  

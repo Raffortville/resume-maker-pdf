@@ -14,6 +14,7 @@ const experienceSchema = new mongoose.Schema({
 const resumeSchema = new mongoose.Schema({
     userId: {type: String, required: true},
     position: String,
+    introduction: String,
     portfolio: String,
     socialMedias: String,
     expertises :  Array,

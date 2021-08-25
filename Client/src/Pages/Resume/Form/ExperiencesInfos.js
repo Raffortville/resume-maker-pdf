@@ -193,10 +193,12 @@ const ExperiencesInfos = props => {
                         <h3>Description</h3>
                         <TextareaAutosize
                             style={{width:'100%', marginTop:'5px'}}
+                            name='description'
                             rowsMax={4}
                             rowsMin={3}
                             placeholder="Describe your experience in few words"
                             defaultValue={experience.description}
+                            onChange={(e) => handleChange(e, i)}
                         />
                     </div>
                     <div style={{marginTop:'30px'}}>

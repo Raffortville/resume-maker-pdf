@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     textAlign:'center'
   },
   sideText: {
-    fontSize:'11px',
+    fontSize:'10px',
     lineHeight:'1.4px'
   },
   main: {
@@ -69,9 +69,9 @@ console.log(resume)
         <View style={styles.side}>
           <Text style={styles.sideTitle}>PROFESSIONAL</Text>
           <Text style={styles.sideSubTitle}>PROFILE</Text>
-          <View style={{marginTop:'10px', padding:'0 15px'}}>
+          <View style={{marginTop:'10px', padding:'0 10px'}}>
             <Text style={styles.sideText}>
-              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+              {resume.introduction}
             </Text>
           </View>
           <View style={{marginTop:'10px'}}>
@@ -83,9 +83,9 @@ console.log(resume)
           </View>
         </View>
         <View style={styles.main}>
-          <Text style={styles.mainTitle}>Raffi</Text>
-          <Text style={styles.mainSubTitle}>HAYCAN</Text>
-          <Text style={{fontSize:'14px'}}>React / Node.Js / Developer</Text>
+          <Text style={styles.mainTitle}>{user.firstName}</Text>
+          <Text style={styles.mainSubTitle}>{user.lastName}</Text>
+          <Text style={{fontSize:'14px'}}>{resume.position}</Text>
         </View>
       </Page>
     </Document>

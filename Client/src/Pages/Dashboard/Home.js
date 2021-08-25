@@ -34,6 +34,7 @@ const Home = () => {
         }
     }, [dispatch, user])
 
+
     return (
         <div className='root-container resume'>
             <>
@@ -73,13 +74,13 @@ const Home = () => {
                                 dispatch(setResume(e))
                                 history.push(`/resume/final/${e._id}`)
                             }}
-                            title='Edit your resume' 
+                            title='Check your resume' 
                             placement='top'
                             style={{cursor:'pointer'}}
                         >
                             <ListAltOutlinedIcon className='resume-card-icon'/>
                         </Tooltip>
-                            <div style={{backgroundColor:'#786fa6' , width:'100%', borderBottomLeftRadius:'10px', borderBottomRightRadius:'10px'}}>
+                            <div style={{backgroundColor:'#786fa6' , width:'100%', borderBottomLeftRadius:'10px', borderBottomRightRadius:'10px', minHeight:'70px'}}>
                                 <p style={{color:'white', textAlign:'center', flexWrap:'wrap', fontSize:'15px'}}>
                                     { e.position 
                                         ? e.position
@@ -93,7 +94,7 @@ const Home = () => {
             </div>
            }
            {drafts.length > 0 &&
-            <div style={{marginTop:'50px'}}>
+            <div style={{marginTop:'90px'}}>
                 <h2 className='head-title'>Resume to be complete</h2>
                 <div  style={{display:'flex', paddingRight:'50px', flexWrap:'wrap'}}>
                     {drafts.map((e, i) => 
@@ -123,7 +124,7 @@ const Home = () => {
                                 >
                                     <ListAltOutlinedIcon className='resume-card-icon'/>
                                 </Tooltip>
-                                <div style={{backgroundColor:'#786fa6' , width:'100%', borderBottomLeftRadius:'10px', borderBottomRightRadius:'10px'}}>
+                                <div style={{backgroundColor:'#786fa6' , width:'100%', borderBottomLeftRadius:'10px', borderBottomRightRadius:'10px', minHeight:'70px'}}>
                                     <p style={{color:'white', textAlign:'center', flexWrap:'wrap', fontSize:'15px'}}>
                                     { e.position 
                                         ? e.position

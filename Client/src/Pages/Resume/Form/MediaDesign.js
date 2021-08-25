@@ -50,7 +50,7 @@ const FinalStep = props => {
         <Skeleton
             mainTitle='Picture and design'
             className='fade'
-            next='/resume/summary'
+            next={resumeState !== 'complete' ? '/resume/summary' : `/resume/final/${resume._id}`}
         >
             <h3>Choose your resume picture *</h3>
             <div style={{margin:'20px auto', display:'flex', alignItems:"center", flexDirection:'column'}}>
