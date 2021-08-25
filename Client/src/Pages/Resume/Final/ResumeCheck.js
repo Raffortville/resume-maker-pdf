@@ -4,7 +4,7 @@ import { useHistory } from 'react-router'
 import {resumeSelector} from '../../../Store/resumeStore'
 import {userSelector} from '../../../Store/userStore'
 import PdfResume from '../../../Components/Resume/PDF/PdfResume'
-import { PDFViewer } from '@react-pdf/renderer'
+import { PDFViewer} from '@react-pdf/renderer'
 import EditRoundedIcon from '@material-ui/icons/EditRounded'
 import useCheckResumeState from '../../Resume/useCheckResumeState'
 
@@ -23,7 +23,8 @@ const ResumeCheck = props => {
             <div style={{width:'350px', display:'flex', flexDirection:'column', justifyContent:'flex-start', marginTop:'20px'}}>
                 <h3 className='head-title' style={{textDecoration:'none', textAlign:'center', marginBottom:'20px'}}>Go to edit</h3>
                 {sections.map((section, i) =>
-                    <div 
+                    <div
+                        key={i}
                         style={{display:'flex', justifyContent:'space-between', alignItems:'center', cursor:'pointer', margin:'15px 0px', padding:'0px 10px 0px 5px'}}
                         onClick={()=> history.push(section.link)}
                     >
@@ -34,7 +35,7 @@ const ResumeCheck = props => {
             </div>
             <div style={{width:'1000px', display:'flex', justifyContent:'center'}}>
                 <PDFViewer width='1000px' height='840px'>
-                    <PdfResume resume={resume} user={user} />
+                    <PdfResume resume={resume} user={user}/>
                 </PDFViewer> 
             </div>
         </div>

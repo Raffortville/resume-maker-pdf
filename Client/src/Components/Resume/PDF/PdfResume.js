@@ -1,5 +1,5 @@
 import React from 'react';
-import { Page, Text, View, Document, StyleSheet, Font } from '@react-pdf/renderer';
+import { Page, Text, View, Document, StyleSheet, Font, Image } from '@react-pdf/renderer';
 import font from '../../../Font/FiraSans-Medium.ttf'
 import fontLight from '../../../Font/FiraSans-Light.ttf'
 
@@ -12,14 +12,21 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
   },
 
-  side: {
-    border: '1px solid black',
+  sideGreen: {
     width:'35%',
     height:'100%',
-    backgroundColor: '#6A4952',
     flexDirection:'column',
     color: '#E5E5E5',
-    padding:10
+    padding:10,
+    backgroundColor:'green'
+  },
+  sideBerry: {
+    width:'35%',
+    height:'100%',
+    flexDirection:'column',
+    color: '#E5E5E5',
+    padding:10,
+    backgroundColor:'#8d4e85'
   },
   sideTitle: {
     fontSize:'18px',
@@ -47,11 +54,23 @@ const styles = StyleSheet.create({
   mainTitle: {
     color:'#6A4952',
     fontFamily:'Fira',
-    fontSize:'24px'
+    fontSize:'20px'
   },
   mainSubTitle: {
-    fontSize:'32px',
+    fontSize:'28px',
     marginBottom:'5px'
+  },
+  photoContainer: {
+    border: '1px solid black',
+    height: '80px',
+    width:'80px',
+    borderBottomLeftRadius:'50%',
+    borderBottomRightRadius:'50%',
+    borderTopLeftRadius:'50%',
+    borderTopRightRadius:'50%',
+    position: 'abosolute',
+    left:'250px',
+    bottom:'60px'
   }
 
 });
@@ -59,14 +78,12 @@ const styles = StyleSheet.create({
 // Create Document Component
 const PdfResume = props => {
 
-const {resume, user} = props
+  const {resume, user } = props  
 
-console.log(user)
-console.log(resume)
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        <View style={styles.side}>
+        <View style={resume.colorMain === 'berry' ? styles.sideBerry : styles.sideGreen}>
           <Text style={styles.sideTitle}>PROFESSIONAL</Text>
           <Text style={styles.sideSubTitle}>PROFILE</Text>
           <View style={{marginTop:'10px', padding:'0 10px'}}>
@@ -79,13 +96,16 @@ console.log(resume)
           </View>
           <View style={{marginTop:'10px', padding:'0 15px'}}>
             <Text style={styles.sideText}>* HTML/CSS</Text>
-            <Text style={styles.sideText}>* Javascript</Text>
+            <Text style={styles.sideText}>* {resume.profilPic}</Text>
           </View>
         </View>
         <View style={styles.main}>
-          <Text style={styles.mainTitle}>{user.firstName}</Text>
-          <Text style={styles.mainSubTitle}>{user.lastName}</Text>
-          <Text style={{fontSize:'14px'}}>{resume.position}</Text>
+          <View style={{position:'relative'}}>
+            <Text style={styles.mainTitle}>{user.firstName}</Text>
+            <Text style={styles.mainSubTitle}>{user.lastName}</Text>  
+            <Text style={{fontSize:'14px'}}>{resume.position}</Text>
+            <Image style={styles.photoContainer} source={resume.profilPic}/>
+          </View>
         </View>
       </Page>
     </Document>
