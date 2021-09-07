@@ -23,10 +23,13 @@ const checkInputFormat = (input, type) => {
     }
 }
 
-
 const isStringEmpty = input => {
     if (input === undefined || input === null || input === '') return true
     else return false
 }
 
-export {checkInputFormat, isStringEmpty}
+const firstLetterCapital = str => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+export {checkInputFormat, isStringEmpty, firstLetterCapital}
