@@ -3,14 +3,14 @@ import { Button , Tooltip} from '@material-ui/core'
 import { useHistory } from 'react-router'
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward'
 import PreviewChips from '../../Components/Resume/Form/PreviewChips'
+import PreviewList from '../../Components/Resume/Form/PreviewList'
 
 import './Resume.css'
 
 const Skeleton = ({children, ...props}) => {
 
-    const {mainTitle, next, previewChips} = props
+    const {mainTitle, next, previewChips, experiences} = props
     const history = useHistory()
-
 
     return (
     <div className='root-container skeleton'>
@@ -28,8 +28,14 @@ const Skeleton = ({children, ...props}) => {
                         <PreviewChips previews={previewChips}/>
                     </div>
                 }
+                {experiences && experiences[0]?.achievements?.length > 0 &&
+                    <div style={{marginTop:'30px', width:'370px'}}>
+                        { experiences.map((exp, i) => 
+                            <PreviewList key={i} title={exp.company} items={exp.achievements}/>
+                        )}
+                    </div>
+                }
             </div>
-           
             {next && next !== '' && 
                 <div> 
                     <Tooltip title='Pass and go without saving'>

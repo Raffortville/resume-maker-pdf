@@ -5,7 +5,7 @@ const experienceSchema = new mongoose.Schema({
     period: String,
     place: String,
     occupiedPosition: String,
-    achievements: String,
+    achievements: Array,
     stack: String,
     description: String,
     project: String,

@@ -4,12 +4,13 @@ import { useHistory } from 'react-router'
 import Skeleton from '../Skeleton'
 import { updateResumeToDb } from '../../../Store/resumeStore'
 import {resumeSelector} from '../../../Store/resumeStore'
-import { TextField, TextareaAutosize, Button } from '@material-ui/core'
+import { TextField, TextareaAutosize, Button, Tooltip } from '@material-ui/core'
 import SaveIcon from '@material-ui/icons/Save'
 import AddCircleIcon from '@material-ui/icons/AddCircle'
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle'
 import { isStringEmpty } from '../../../Helpers/checkFormat'
 import useCheckResumeState from '../useCheckResumeState'
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
 
 import '../Resume.css'
 
@@ -24,7 +25,7 @@ const ExperiencesInfos = props => {
         period:  '',
         place: '',
         occupiedPosition: '',
-        achievements: '',
+        achievements: [],
         stack:  '',
         description:  '',
         project: '',
@@ -35,6 +36,7 @@ const ExperiencesInfos = props => {
     }
    
     const [experiences, setExperiences] = useState([])
+    const [achievement, setAchievement] = useState('')
     const [disabled, setDisabled] = useState(true)
 
     useEffect(() => {
@@ -90,11 +92,12 @@ const ExperiencesInfos = props => {
             setTimeout(() =>  history.push('/resume/form/medias'), 2000) 
         }   
     }
-  
+
     return (
         <Skeleton 
             mainTitle='About your work experiences'
             next='/resume/form/medias'
+            experiences = {experiences}
         >
             {experiences.map((experience, i) =>
                 <div key={i} style={i !== 0 ? {marginTop:'30px'} : {}}>
@@ -165,15 +168,29 @@ const ExperiencesInfos = props => {
                         <h3>Achievements</h3>
                         <TextField 
                             type='text'
-                            value={experience.achievements}
+                            value={achievement}
                             size='small' 
                             fullWidth  
                             style={{color:'#574b90'}}
-                            name='achievements'
-                            onChange={(e) => {
-                                handleChange(e,i)
-                            }}
+                            name='achievement'
+                            onChange={e => setAchievement(e.target.value)}
                         />
+                        <Tooltip title='click to add achievement' style={{position: 'relative'}}>
+                            <AddCircleOutlineIcon
+                                style={{position:'absolute', right:'500px' ,fontSize:'22px', color:'#786fa6', cursor:'pointer'}}
+                                onClick={() => {
+                                    setExperiences(experiences.map((exp, index) => {
+                                        if (index === i) {
+                                            if (achievement !== '') {
+                                                exp = {...exp, achievements : [...exp.achievements, achievement]}
+                                                setAchievement('')
+                                            }
+                                        }
+                                        return exp
+                                    }))
+                                }}
+                            />
+                        </Tooltip>
                     </div>
                     <div style={{marginTop:'30px'}}>
                         <h3>Stack</h3>

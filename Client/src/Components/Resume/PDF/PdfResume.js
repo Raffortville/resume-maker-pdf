@@ -82,8 +82,6 @@ const styles = StyleSheet.create({
 const PdfResume = props => {
 
   const {resume, user } = props 
-
-  console.log(resume)
   const [colorMain, setColorMain] = useState()
 
   useEffect(() => {
