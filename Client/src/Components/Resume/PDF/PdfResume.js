@@ -45,13 +45,30 @@ const styles = StyleSheet.create({
 	},
 	sideSubTitle: {
 		fontFamily: 'Fira',
+		fontStyle: 'light',
 		fontSize: '14px',
 		textAlign: 'center',
 		letterSpacing: '1px',
 	},
 	sideText: {
+		fontFamily: 'Fira',
 		fontSize: '10px',
 		lineHeight: '1.4px',
+	},
+	mainText: {
+		fontSize: '10px',
+	},
+	mainTextBold: {
+		fontFamily: 'Fira',
+		fontSize: '10px',
+		lineHeight: '1.4px',
+		fontWeight: 'bold',
+	},
+	mainTextLight: {
+		fontFamily: 'Fira',
+		fontSize: '10px',
+		lineHeight: '1.4px',
+		fontStyle: 'light',
 	},
 	main: {
 		padding: 10,
@@ -61,7 +78,6 @@ const styles = StyleSheet.create({
 		color: '#3d3d3d',
 	},
 	mainTitle: {
-		fontFamily: 'Fira',
 		fontSize: '20px',
 		color: '#5a5a5a',
 	},
@@ -69,15 +85,13 @@ const styles = StyleSheet.create({
 		fontSize: '28px',
 		marginBottom: '5px',
 	},
-	mainText: {
-		fontSize: '12px',
-	},
 	mainTextQuestion: {
 		marginTop: '5px',
 		color: '#5a5a5a',
 		fontFamily: 'Fira',
 		letterSpacing: '1px',
 		fontSize: '10px',
+		fontStyle: 'light',
 	},
 	photoContainer: {
 		height: '92px',
@@ -96,8 +110,6 @@ const styles = StyleSheet.create({
 const PdfResume = (props) => {
 	const { resume, user } = props;
 	const [colorMain, setColorMain] = useState();
-
-	console.log(resume.profilPic);
 
 	useEffect(() => {
 		switch (resume.colorMain) {
@@ -169,7 +181,8 @@ const PdfResume = (props) => {
 						<Text style={styles.mainSubTitle}>{user.lastName}</Text>
 						<Text style={{ fontSize: '14px' }}>{resume.position}</Text>
 						<Text style={[styles.mainTextQuestion, { marginTop: '10px' }]}>
-							Phone <Text style={styles.mainText}> {user.phone}</Text>
+							Phone
+							<Text style={styles.mainText}> {user.phone}</Text>
 						</Text>
 						<Text style={styles.mainTextQuestion}>
 							Email <Text style={styles.mainText}> {user.emailPro}</Text>
@@ -222,16 +235,23 @@ const PdfResume = (props) => {
 									{exp.period}
 								</Text>
 								<Text style={[styles.mainText, { marginTop: '10px' }]}>
-									<Text style={[styles.mainText, { fontSize: '16px' }]}>
-										{exp.company}
-									</Text>{' '}
-									| {exp.place}
+									<Text style={[styles.mainTextBold]}>{exp.company}</Text> |{' '}
+									{exp.place}
 								</Text>
-								<Text style={styles.mainText}>{exp.occupiedPosition}</Text>
-								<Text style={styles.mainText}>{exp.project}</Text>
-								<Text style={styles.mainText}>{exp.descritpion}</Text>
+								<Text style={[styles.mainTextBold, { marginTop: '5px' }]}>
+									{exp.occupiedPosition}
+								</Text>
+								<Text style={[styles.mainText, { marginTop: '5px' }]}>
+									Développement de nouvelles fonctionnalités sur la web
+									application et enrichissement de l'API.{exp.descritpion}
+								</Text>
+								<Text style={[styles.mainTextLight, { marginTop: '5px' }]}>
+									https://www.loumi.co/{exp.project}
+								</Text>
+								<Text style={[styles.mainText, { marginTop: '10px' }]}>
+									{exp.stack}
+								</Text>
 								<Text style={styles.mainText}>{exp.achievements}</Text>
-								<Text style={styles.mainText}>{exp.stack}</Text>
 							</View>
 						))}
 					</View>
