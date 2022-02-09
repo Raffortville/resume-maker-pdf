@@ -141,120 +141,130 @@ const PdfResume = (props) => {
 		}
 	}, [resume.colorMain]);
 
+	const asideElemenent = (
+		<View style={[styles.aside, { backgroundColor: colorMain }]}>
+			<Text style={styles.sideTitle}>PROFESSIONAL</Text>
+			<Text style={[styles.sideSubTitle, { opacity: '0.7' }]}>PROFILE</Text>
+			<View style={{ marginTop: '10px', padding: '0 10px' }}>
+				<Text style={styles.sideText}>{resume.introduction}</Text>
+			</View>
+			{resume?.expertises.length > 0 && (
+				<View style={{ marginTop: '15px' }}>
+					<Text style={styles.sideTitle}>EXPERTISES</Text>
+					<View style={{ marginTop: '10px', padding: '0 15px' }}>
+						{resume.expertises.map((expert, i) => (
+							<Text key={i} style={styles.sideText}>
+								* {firstLetterCapital(expert)}
+							</Text>
+						))}
+					</View>
+				</View>
+			)}
+			{resume.softSkills.length > 0 && (
+				<View style={{ marginTop: '30px' }}>
+					<Text style={styles.sideTitle}>SOFT SKILLS</Text>
+					<View style={{ marginTop: '10px', padding: '0 15px' }}>
+						{resume.expertises.map((expert, i) => (
+							<Text key={i} style={styles.sideText}>
+								* {firstLetterCapital(expert)}
+							</Text>
+						))}
+					</View>
+				</View>
+			)}
+		</View>
+	);
+
+	const headElement = (
+		<View style={{ position: 'relative' }}>
+			<Text style={styles.mainTitle}>{user.firstName}</Text>
+			<Text style={styles.mainSubTitle}>{user.lastName}</Text>
+			<Text style={{ fontSize: '14px' }}>{resume.position}</Text>
+			<Text style={[styles.mainTextQuestion, { marginTop: '10px' }]}>
+				Phone
+				<Text style={styles.mainText}> {user.phone}</Text>
+			</Text>
+			<Text style={styles.mainTextQuestion}>
+				Email <Text style={styles.mainText}> {user.emailPro}</Text>
+			</Text>
+			<Text style={styles.mainTextQuestion}>
+				Place{' '}
+				<Text style={styles.mainText}>
+					{' '}
+					{user.city}, {user.country}
+				</Text>
+			</Text>
+			<Text style={styles.mainTextQuestion}>
+				Social media <Text style={styles.mainText}> {resume.socialMedias}</Text>
+			</Text>
+			<View style={[styles.photoContainer, { backgroundColor: colorMain }]}>
+				<Image
+					style={{ width: '90px', height: '90px', borderRadius: '50%' }}
+					src={resume.profilPic}
+				/>
+			</View>
+			<View
+				style={{
+					width: '100%',
+					borderBottom: `1px solid ${colorMain}`,
+					marginTop: '30px',
+				}}></View>
+		</View>
+	);
+
+	const mainElement = (
+		<View style={{ marginTop: '10px' }}>
+			<Text style={[styles.sideSubTitle]}>
+				PROFESSIONAL
+				<Text style={[styles.sideSubTitle, { opacity: 0.5 }]}>
+					{' '}
+					EXPERIENCES
+				</Text>
+			</Text>
+			{resume.experiences.map((exp, i) => (
+				<View style={{ marginTop: '10px' }} key={i}>
+					<Text
+						style={[
+							styles.mainTextQuestion,
+							{
+								backgroundColor: '#D3D3D3',
+								borderRadius: '3px',
+								padding: '2px 4px',
+								marginTop: '10px',
+							},
+						]}>
+						{exp.period}
+					</Text>
+					<Text style={[styles.mainText, { marginTop: '10px' }]}>
+						<Text style={[styles.mainTextBold]}>{exp.company}</Text> |{' '}
+						{exp.place}
+					</Text>
+					<Text style={[styles.mainTextBold, { marginTop: '5px' }]}>
+						{exp.occupiedPosition}
+					</Text>
+					<Text style={[styles.mainText, { marginTop: '5px' }]}>
+						Développement de nouvelles fonctionnalités sur la web application et
+						enrichissement de l'API.{exp.descritpion}
+					</Text>
+					<Text style={[styles.mainTextLight, { marginTop: '5px' }]}>
+						https://www.loumi.co/{exp.project}
+					</Text>
+					<Text style={[styles.mainText, { marginTop: '10px' }]}>
+						{exp.stack}
+					</Text>
+					<Text style={styles.mainText}>{exp.achievements}</Text>
+				</View>
+			))}
+		</View>
+	);
+
 	return (
 		<Document>
 			<Page size='A4' style={styles.page}>
-				<View style={[styles.aside, { backgroundColor: colorMain }]}>
-					<Text style={styles.sideTitle}>PROFESSIONAL</Text>
-					<Text style={[styles.sideSubTitle, { opacity: '0.7' }]}>PROFILE</Text>
-					<View style={{ marginTop: '10px', padding: '0 10px' }}>
-						<Text style={styles.sideText}>{resume.introduction}</Text>
-					</View>
-					{resume?.expertises.length > 0 && (
-						<View style={{ marginTop: '15px' }}>
-							<Text style={styles.sideTitle}>EXPERTISES</Text>
-							<View style={{ marginTop: '10px', padding: '0 15px' }}>
-								{resume.expertises.map((expert, i) => (
-									<Text key={i} style={styles.sideText}>
-										* {firstLetterCapital(expert)}
-									</Text>
-								))}
-							</View>
-						</View>
-					)}
-					{resume.softSkills.length > 0 && (
-						<View style={{ marginTop: '30px' }}>
-							<Text style={styles.sideTitle}>SOFT SKILLS</Text>
-							<View style={{ marginTop: '10px', padding: '0 15px' }}>
-								{resume.expertises.map((expert, i) => (
-									<Text key={i} style={styles.sideText}>
-										* {firstLetterCapital(expert)}
-									</Text>
-								))}
-							</View>
-						</View>
-					)}
-				</View>
+				{asideElemenent}
 				<View style={styles.main}>
-					<View style={{ position: 'relative' }}>
-						<Text style={styles.mainTitle}>{user.firstName}</Text>
-						<Text style={styles.mainSubTitle}>{user.lastName}</Text>
-						<Text style={{ fontSize: '14px' }}>{resume.position}</Text>
-						<Text style={[styles.mainTextQuestion, { marginTop: '10px' }]}>
-							Phone
-							<Text style={styles.mainText}> {user.phone}</Text>
-						</Text>
-						<Text style={styles.mainTextQuestion}>
-							Email <Text style={styles.mainText}> {user.emailPro}</Text>
-						</Text>
-						<Text style={styles.mainTextQuestion}>
-							Place{' '}
-							<Text style={styles.mainText}>
-								{' '}
-								{user.city}, {user.country}
-							</Text>
-						</Text>
-						<Text style={styles.mainTextQuestion}>
-							Social media{' '}
-							<Text style={styles.mainText}> {resume.socialMedias}</Text>
-						</Text>
-						<View
-							style={[styles.photoContainer, { backgroundColor: colorMain }]}>
-							<Image
-								style={{ width: '90px', height: '90px', borderRadius: '50%' }}
-								src={resume.profilPic}
-							/>
-						</View>
-						<View
-							style={{
-								width: '100%',
-								borderBottom: `1px solid ${colorMain}`,
-								marginTop: '30px',
-							}}></View>
-					</View>
-					<View style={{ marginTop: '10px' }}>
-						<Text style={[styles.sideSubTitle]}>
-							PROFESSIONAL
-							<Text style={[styles.sideSubTitle, { opacity: 0.5 }]}>
-								{' '}
-								EXPERIENCES
-							</Text>
-						</Text>
-						{resume.experiences.map((exp, i) => (
-							<View style={{ marginTop: '10px' }} key={i}>
-								<Text
-									style={[
-										styles.mainTextQuestion,
-										{
-											backgroundColor: '#D3D3D3',
-											borderRadius: '3px',
-											padding: '2px 4px',
-											marginTop: '10px',
-										},
-									]}>
-									{exp.period}
-								</Text>
-								<Text style={[styles.mainText, { marginTop: '10px' }]}>
-									<Text style={[styles.mainTextBold]}>{exp.company}</Text> |{' '}
-									{exp.place}
-								</Text>
-								<Text style={[styles.mainTextBold, { marginTop: '5px' }]}>
-									{exp.occupiedPosition}
-								</Text>
-								<Text style={[styles.mainText, { marginTop: '5px' }]}>
-									Développement de nouvelles fonctionnalités sur la web
-									application et enrichissement de l'API.{exp.descritpion}
-								</Text>
-								<Text style={[styles.mainTextLight, { marginTop: '5px' }]}>
-									https://www.loumi.co/{exp.project}
-								</Text>
-								<Text style={[styles.mainText, { marginTop: '10px' }]}>
-									{exp.stack}
-								</Text>
-								<Text style={styles.mainText}>{exp.achievements}</Text>
-							</View>
-						))}
-					</View>
+					{headElement}
+					{mainElement}
 				</View>
 			</Page>
 		</Document>
