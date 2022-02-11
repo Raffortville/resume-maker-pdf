@@ -14,6 +14,16 @@ import Skeleton from '../Skeleton';
 import { isStringEmpty } from '../../../Helpers/checkFormat';
 import useCheckResumeState from '../useCheckResumeState';
 
+const initialSoft = {
+	value: '',
+	id: '',
+};
+
+const initialSkill = {
+	value: '',
+	id: '',
+};
+
 const ResumeInfos = (props) => {
 	const dispatch = useDispatch();
 	const history = useHistory();
@@ -29,16 +39,6 @@ const ResumeInfos = (props) => {
 		softSkills: resumeHolded.softSkills || [],
 	};
 
-	const initialSoft = {
-		value: '',
-		id: '',
-	};
-
-	const initialSkill = {
-		value: '',
-		id: '',
-	};
-
 	const [postionError, setPositionError] = useState(false);
 	const [skill, setSkill] = useState(initialSkill);
 	const [softSkill, setSoftSkill] = useState(initialSoft);
@@ -47,6 +47,11 @@ const ResumeInfos = (props) => {
 	const [resumeInfos, setResumeInfos] = useState(initialState);
 
 	const { resumeState } = useCheckResumeState();
+
+	useEffect(() => {
+		if (isStringEmpty(resumeInfos.position)) setDisabled(true);
+		else setDisabled(false);
+	}, [resumeInfos]);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -66,10 +71,12 @@ const ResumeInfos = (props) => {
 		}
 	};
 
-	useEffect(() => {
-		if (isStringEmpty(resumeInfos.position)) setDisabled(true);
-		else setDisabled(false);
-	}, [resumeInfos]);
+	const removeItemFromResume = (listKey, item) => {
+		setResumeInfos({
+			...resumeInfos,
+			[listKey]: resumeInfos[listKey].filter((elmt) => elmt.id !== item.id),
+		});
+	};
 
 	return (
 		<Skeleton
@@ -79,26 +86,14 @@ const ResumeInfos = (props) => {
 				{
 					chips: resumeInfos.expertises,
 					title: 'Expertise',
-					delete: (chip) =>
-						setResumeInfos({
-							...resumeInfos,
-							expertises: resumeInfos.expertises.filter(
-								(expert) => expert.value !== chip.value
-							),
-						}),
+					onDelete: (chip) => removeItemFromResume('expertises', chip),
 				},
 			]}
 			previewList={[
 				{
-					chips: resumeInfos.softSkills,
+					labels: resumeInfos.softSkills,
 					title: 'Soft Skills',
-					delete: (chip) =>
-						setResumeInfos({
-							...resumeInfos,
-							softSkills: resumeInfos.softSkills.filter(
-								(soft) => soft.value !== chip.value
-							),
-						}),
+					onDelete: (label) => removeItemFromResume('softSkills', label),
 				},
 			]}>
 			<h3>Position *</h3>
@@ -174,7 +169,7 @@ const ResumeInfos = (props) => {
 							cursor: 'pointer',
 						}}
 						onClick={() => {
-							if (skill !== '') {
+							if (skill.value !== '') {
 								setResumeInfos({
 									...resumeInfos,
 									expertises: [...resumeInfos.expertises, skill],
@@ -208,7 +203,7 @@ const ResumeInfos = (props) => {
 							cursor: 'pointer',
 						}}
 						onClick={() => {
-							if (softSkill !== '') {
+							if (softSkill.value !== '') {
 								setResumeInfos({
 									...resumeInfos,
 									softSkills: [...resumeInfos.softSkills, softSkill],

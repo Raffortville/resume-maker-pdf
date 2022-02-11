@@ -9,11 +9,11 @@ const PreviewList = (props) => {
 		<>
 			{itemsList.map(
 				(item, index) =>
-					item?.achievements?.length > 0 && (
+					item?.labels?.length > 0 && (
 						<div key={index} style={{ marginBottom: '20px' }}>
 							<h3 style={{ textAlign: 'center' }}>{item.title}</h3>
 							<ul>
-								{item.achievements.map((achievement, i) => (
+								{item.labels.map((label, i) => (
 									<li
 										key={i}
 										style={{
@@ -23,8 +23,8 @@ const PreviewList = (props) => {
 											marginBottom: '10px',
 											width: '100%',
 										}}>
-										{achievement.value}
-										<Button onClick={() => item.onDelete(achievement)}>
+										{label.value}
+										<Button onClick={() => item.onDelete(label)}>
 											<HighlightOffIcon />
 										</Button>
 									</li>

@@ -19,41 +19,43 @@ import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
 import '../Resume.css';
 
+const initialStack = {
+	value: '',
+	id: '',
+};
+
+const initialAchievement = {
+	value: '',
+	id: '',
+};
+
+const initialState = {
+	company: '',
+	period: '',
+	place: '',
+	occupiedPosition: '',
+	achievements: [],
+	stack: [],
+	description: '',
+	project: '',
+	companyError: false,
+	periodError: false,
+	placeError: false,
+	occupiedPositionError: false,
+	exp_id: Date.now().toString(),
+};
+
 const ExperiencesInfos = (props) => {
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const resumeHolded = useSelector(resumeSelector);
 
-	const initialStack = {
-		value: '',
-		id: '',
-	};
-
-	const initialAchievement = {
-		value: '',
-		id: '',
-	};
-
-	const initialState = {
-		company: '',
-		period: '',
-		place: '',
-		occupiedPosition: '',
-		achievements: [],
-		stack: [],
-		description: '',
-		project: '',
-		companyError: false,
-		periodError: false,
-		placeError: false,
-		occupiedPositionError: false,
-		exp_id: Date.now().toString(),
-	};
-
 	const [experiences, setExperiences] = useState([]);
 	const [achievement, setAchievement] = useState(initialAchievement);
 	const [stack, setStack] = useState(initialStack);
 	const [disabled, setDisabled] = useState(true);
+
+	const { resumeState } = useCheckResumeState();
 
 	useEffect(() => {
 		resumeHolded.experiences.length > 0
@@ -85,8 +87,6 @@ const ExperiencesInfos = (props) => {
 			setDisabled(false);
 		} else setDisabled(true);
 	}, [experiences]);
-
-	const { resumeState } = useCheckResumeState();
 
 	const handleChange = (e, index) => {
 		const { value, name } = e.target;
@@ -139,57 +139,31 @@ const ExperiencesInfos = (props) => {
 		}
 	};
 
-	const addStackToExperience = (id) => {
+	const addItemToExperiences = (listKey, stateKey, id) => {
 		setExperiences(
 			experiences.map((exp) => {
 				if (exp.exp_id === id) {
-					if (stack.value !== '') {
+					if ([stateKey].value !== '') {
 						exp = {
 							...exp,
-							stack: [...exp.stack, stack],
+							[listKey]: [...exp[listKey], stateKey],
 						};
 					}
 				}
 				return exp;
 			})
 		);
-		setStack(initialStack);
+		stateKey === 'stack'
+			? setStack(initialStack)
+			: setAchievement(initialAchievement);
 	};
 
-	const addAchievmentToExperience = (id) => {
-		setExperiences(
-			experiences.map((exp) => {
-				if (exp.exp_id === id) {
-					if (achievement.value !== '') {
-						exp = {
-							...exp,
-							achievements: [...exp.achievements, achievement],
-						};
-					}
-				}
-				return exp;
-			})
-		);
-		setAchievement(initialAchievement);
-	};
-
-	const removeAchievement = (item) => {
+	const removeItemFromExperiences = (listKey, item) => {
 		let copyExperiences = experiences.map(
 			(exp) =>
 				(exp = {
 					...exp,
-					achievements: exp.achievements.filter((ach) => ach.id !== item.id),
-				})
-		);
-		setExperiences(copyExperiences);
-	};
-
-	const removeStack = (item) => {
-		let copyExperiences = experiences.map(
-			(exp) =>
-				(exp = {
-					...exp,
-					stack: exp.stack.filter((stk) => stk.id !== item.id),
+					[listKey]: exp[listKey].filter((elmt) => elmt.id !== item.id),
 				})
 		);
 		setExperiences(copyExperiences);
@@ -206,11 +180,12 @@ const ExperiencesInfos = (props) => {
 			previewList={experiences?.map(
 				(exp) =>
 					(exp = {
-						achievements: [...exp.achievements],
+						labels: [...exp.achievements],
 						title: `${
 							exp?.company ? exp.company : 'Company name'
 						} achievements`,
-						onDelete: (achievement) => removeAchievement(achievement),
+						onDelete: (achievement) =>
+							removeItemFromExperiences('achievements', achievement),
 					})
 			)}
 			previewChips={experiences?.map(
@@ -218,7 +193,7 @@ const ExperiencesInfos = (props) => {
 					(exp = {
 						chips: [...exp.stack],
 						title: `${exp?.company ? exp.company : 'Company name'} stack`,
-						onDelete: (stack) => removeStack(stack),
+						onDelete: (stack) => removeItemFromExperiences('stack', stack),
 					})
 			)}>
 			{experiences.map((experience, i) => (
@@ -317,9 +292,13 @@ const ExperiencesInfos = (props) => {
 									color: '#786fa6',
 									cursor: 'pointer',
 								}}
-								onClick={() => {
-									addAchievmentToExperience(experience.exp_id);
-								}}
+								onClick={() =>
+									addItemToExperiences(
+										'achievements',
+										'achievement',
+										experience.exp_id
+									)
+								}
 							/>
 						</Tooltip>
 					</div>
@@ -348,7 +327,7 @@ const ExperiencesInfos = (props) => {
 									cursor: 'pointer',
 								}}
 								onClick={() => {
-									addStackToExperience(experience.exp_id);
+									addItemToExperiences('stack', 'stack', experience.exp_id);
 								}}
 							/>
 						</Tooltip>
