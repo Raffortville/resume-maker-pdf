@@ -24,23 +24,35 @@ const ExperiencesInfos = (props) => {
 	const dispatch = useDispatch();
 	const resumeHolded = useSelector(resumeSelector);
 
+	const initialStack = {
+		value: '',
+		id: '',
+	};
+
+	const initialAchievement = {
+		value: '',
+		id: '',
+	};
+
 	const initialState = {
 		company: '',
 		period: '',
 		place: '',
 		occupiedPosition: '',
 		achievements: [],
-		stack: '',
+		stack: [],
 		description: '',
 		project: '',
 		companyError: false,
 		periodError: false,
 		placeError: false,
 		occupiedPositionError: false,
+		exp_id: Date.now().toString(),
 	};
 
 	const [experiences, setExperiences] = useState([]);
-	const [achievement, setAchievement] = useState('');
+	const [achievement, setAchievement] = useState(initialAchievement);
+	const [stack, setStack] = useState(initialStack);
 	const [disabled, setDisabled] = useState(true);
 
 	useEffect(() => {
@@ -127,11 +139,88 @@ const ExperiencesInfos = (props) => {
 		}
 	};
 
+	const addStackToExperience = (id) => {
+		setExperiences(
+			experiences.map((exp) => {
+				if (exp.exp_id === id) {
+					if (stack.value !== '') {
+						exp = {
+							...exp,
+							stack: [...exp.stack, stack],
+						};
+					}
+				}
+				return exp;
+			})
+		);
+		setStack(initialStack);
+	};
+
+	const addAchievmentToExperience = (id) => {
+		setExperiences(
+			experiences.map((exp) => {
+				if (exp.exp_id === id) {
+					if (achievement.value !== '') {
+						exp = {
+							...exp,
+							achievements: [...exp.achievements, achievement],
+						};
+					}
+				}
+				return exp;
+			})
+		);
+		setAchievement(initialAchievement);
+	};
+
+	const removeAchievement = (item) => {
+		let copyExperiences = experiences.map(
+			(exp) =>
+				(exp = {
+					...exp,
+					achievements: exp.achievements.filter((ach) => ach.id !== item.id),
+				})
+		);
+		setExperiences(copyExperiences);
+	};
+
+	const removeStack = (item) => {
+		let copyExperiences = experiences.map(
+			(exp) =>
+				(exp = {
+					...exp,
+					stack: exp.stack.filter((stk) => stk.id !== item.id),
+				})
+		);
+		setExperiences(copyExperiences);
+	};
+
+	const removeExperience = (id) => {
+		setExperiences(experiences.filter((exp) => exp.exp_id !== id));
+	};
+
 	return (
 		<Skeleton
 			mainTitle='About your work experiences'
 			next='/resume/form/medias'
-			experiences={experiences}>
+			previewList={experiences?.map(
+				(exp) =>
+					(exp = {
+						achievements: [...exp.achievements],
+						title: `${
+							exp?.company ? exp.company : 'Company name'
+						} achievements`,
+						onDelete: (achievement) => removeAchievement(achievement),
+					})
+			)}
+			previewChips={experiences?.map(
+				(exp) =>
+					(exp = {
+						chips: [...exp.stack],
+						title: `${exp?.company ? exp.company : 'Company name'} stack`,
+						onDelete: (stack) => removeStack(stack),
+					})
+			)}>
 			{experiences.map((experience, i) => (
 				<div key={i} style={i !== 0 ? { marginTop: '30px' } : {}}>
 					{i !== 0 && <div className='divider' />}
@@ -205,12 +294,17 @@ const ExperiencesInfos = (props) => {
 						<h3>Achievements</h3>
 						<TextField
 							type='text'
-							value={achievement}
+							value={achievement.value}
 							size='small'
 							fullWidth
 							style={{ color: '#574b90' }}
 							name='achievement'
-							onChange={(e) => setAchievement(e.target.value)}
+							onChange={(e) =>
+								setAchievement({
+									value: e.target.value,
+									id: Date.now().toString(),
+								})
+							}
 						/>
 						<Tooltip
 							title='click to add achievement'
@@ -224,20 +318,7 @@ const ExperiencesInfos = (props) => {
 									cursor: 'pointer',
 								}}
 								onClick={() => {
-									setExperiences(
-										experiences.map((exp, index) => {
-											if (index === i) {
-												if (achievement !== '') {
-													exp = {
-														...exp,
-														achievements: [...exp.achievements, achievement],
-													};
-													setAchievement('');
-												}
-											}
-											return exp;
-										})
-									);
+									addAchievmentToExperience(experience.exp_id);
 								}}
 							/>
 						</Tooltip>
@@ -246,15 +327,31 @@ const ExperiencesInfos = (props) => {
 						<h3>Stack</h3>
 						<TextField
 							type='text'
-							value={experience.stack}
+							value={stack.value}
 							size='small'
 							fullWidth
 							style={{ color: '#574b90' }}
 							name='stack'
-							onChange={(e) => {
-								handleChange(e, i);
-							}}
+							onChange={(e) =>
+								setStack({ value: e.target.value, id: Date.now().toString() })
+							}
 						/>
+						<Tooltip
+							title='click to add stack'
+							style={{ position: 'relative' }}>
+							<AddCircleOutlineIcon
+								style={{
+									position: 'absolute',
+									right: '500px',
+									fontSize: '22px',
+									color: '#786fa6',
+									cursor: 'pointer',
+								}}
+								onClick={() => {
+									addStackToExperience(experience.exp_id);
+								}}
+							/>
+						</Tooltip>
 					</div>
 					<div style={{ marginTop: '30px' }}>
 						<h3>Description</h3>
@@ -289,40 +386,36 @@ const ExperiencesInfos = (props) => {
 							alignItems: 'center',
 							margin: '10px 0px',
 						}}>
-						{(experiences.length > 1 && i === 0) || experiences.length === 3 ? (
-							<>
-								<RemoveCircleIcon
-									style={{
-										color: '#574b90',
-										fontSize: '30px',
-										marginRight: '10px',
-										cursor: 'pointer',
-									}}
-									onClick={() =>
-										setExperiences(
-											experiences.filter((exp, index) => i !== index)
-										)
-									}
-								/>
-								Remove this work experience ?
-							</>
-						) : (
-							<>
-								<AddCircleIcon
-									style={{
-										color: '#574b90',
-										fontSize: '30px',
-										marginRight: '10px',
-										cursor: 'pointer',
-									}}
-									onClick={() => setExperiences([...experiences, initialState])}
-								/>
-								Add another work experience ?
-							</>
-						)}
+						<RemoveCircleIcon
+							style={{
+								color: '#574b90',
+								fontSize: '30px',
+								marginRight: '10px',
+								cursor: 'pointer',
+							}}
+							onClick={() => removeExperience(experience.exp_id)}
+						/>
+						Remove this work experience ?
 					</div>
 				</div>
 			))}
+			<div
+				style={{
+					display: 'flex',
+					alignItems: 'center',
+					margin: '15px 0px',
+				}}>
+				<AddCircleIcon
+					style={{
+						color: '#574b90',
+						fontSize: '30px',
+						marginRight: '10px',
+						cursor: 'pointer',
+					}}
+					onClick={() => setExperiences([...experiences, initialState])}
+				/>
+				Add another work experience ?
+			</div>
 			<div
 				style={{
 					marginTop: '30px',

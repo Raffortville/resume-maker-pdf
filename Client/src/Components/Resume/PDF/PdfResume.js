@@ -249,10 +249,8 @@ const PdfResume = (props) => {
 					<Text style={[styles.mainTextLight, { marginTop: '5px' }]}>
 						https://www.loumi.co/{exp.project}
 					</Text>
-					<Text style={[styles.mainText, { marginTop: '10px' }]}>
-						{exp.stack}
-					</Text>
-					<Text style={styles.mainText}>{exp.achievements}</Text>
+					<Text style={[styles.mainText, { marginTop: '10px' }]}>stack</Text>
+					<Text style={styles.mainText}></Text>
 				</View>
 			))}
 		</View>
