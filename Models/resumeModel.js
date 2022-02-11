@@ -1,12 +1,17 @@
 const mongoose = require('mongoose');
 
+const subDocSchema = new mongoose.Schema({
+	value: String || Number,
+	id: String,
+});
+
 const experienceSchema = new mongoose.Schema({
 	company: String,
 	period: String,
 	place: String,
 	occupiedPosition: String,
-	achievements: Array,
-	stack: Array,
+	achievements: [subDocSchema],
+	stack: [subDocSchema],
 	description: String,
 	project: String,
 	exp_id: String,
@@ -18,8 +23,8 @@ const resumeSchema = new mongoose.Schema({
 	introduction: String,
 	portfolio: String,
 	socialMedias: String,
-	expertises: Array,
-	softSkills: Array,
+	expertises: [subDocSchema],
+	softSkills: [subDocSchema],
 	experiences: Array,
 	createdtAt: Date,
 	state: String,
