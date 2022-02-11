@@ -6,8 +6,8 @@ const subDocSchema = new mongoose.Schema({
 });
 
 const expertiseSchema = new mongoose.Schema({
-	key: String || Number,
-	title: String,
+	expertiseKey: String || Number,
+	name: String,
 	skills: [subDocSchema],
 });
 
