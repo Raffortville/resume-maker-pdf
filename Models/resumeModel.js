@@ -5,6 +5,12 @@ const subDocSchema = new mongoose.Schema({
 	id: String,
 });
 
+const expertiseSchema = new mongoose.Schema({
+	key: String || Number,
+	title: String,
+	skills: [subDocSchema],
+});
+
 const experienceSchema = new mongoose.Schema({
 	company: String,
 	period: String,
@@ -23,7 +29,7 @@ const resumeSchema = new mongoose.Schema({
 	introduction: String,
 	portfolio: String,
 	socialMedias: String,
-	expertises: [subDocSchema],
+	expertises: [expertiseSchema],
 	softSkills: [subDocSchema],
 	experiences: Array,
 	createdtAt: Date,

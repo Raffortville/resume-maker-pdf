@@ -154,7 +154,7 @@ const PdfResume = (props) => {
 					<View style={{ marginTop: '10px', padding: '0 15px' }}>
 						{resume.expertises.map((expert, i) => (
 							<Text key={i} style={styles.sideText}>
-								* {firstLetterCapital(expert)}
+								* {'hard skill'}
 							</Text>
 						))}
 					</View>
@@ -164,9 +164,9 @@ const PdfResume = (props) => {
 				<View style={{ marginTop: '30px' }}>
 					<Text style={styles.sideTitle}>SOFT SKILLS</Text>
 					<View style={{ marginTop: '10px', padding: '0 15px' }}>
-						{resume.expertises.map((expert, i) => (
+						{resume.softSkills.map((soft, i) => (
 							<Text key={i} style={styles.sideText}>
-								* {firstLetterCapital(expert)}
+								* {'soft skill'}
 							</Text>
 						))}
 					</View>
