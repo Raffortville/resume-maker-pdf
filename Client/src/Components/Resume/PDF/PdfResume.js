@@ -55,6 +55,12 @@ const styles = StyleSheet.create({
 		fontSize: '10px',
 		lineHeight: '1.4px',
 	},
+	sideTextBold: {
+		fontFamily: 'Fira',
+		fontSize: '11px',
+		lineHeight: '1.4px',
+		fontWeight: 'bold',
+	},
 	mainText: {
 		fontSize: '10px',
 	},
@@ -153,8 +159,10 @@ const PdfResume = (props) => {
 					<Text style={styles.sideTitle}>EXPERTISES</Text>
 					<View style={{ marginTop: '10px', padding: '0 15px' }}>
 						{resume.expertises.map((expert, i) => (
-							<Text key={i} style={styles.sideText}>
-								* {'hard skill'}
+							<Text
+								key={i}
+								style={[styles.mainTextBold, { textTransform: 'uppercase' }]}>
+								{expert.expertiseKey}
 							</Text>
 						))}
 					</View>
@@ -225,7 +233,7 @@ const PdfResume = (props) => {
 				<View style={{ marginTop: '10px' }} key={i}>
 					<Text
 						style={[
-							styles.mainTextQuestion,
+							styles.mainTextBold,
 							{
 								backgroundColor: '#D3D3D3',
 								borderRadius: '3px',
@@ -233,24 +241,42 @@ const PdfResume = (props) => {
 								marginTop: '10px',
 							},
 						]}>
-						{exp.period}
+						{exp.period} | {exp.company} | {exp.place}
 					</Text>
-					<Text style={[styles.mainText, { marginTop: '10px' }]}>
-						<Text style={[styles.mainTextBold]}>{exp.company}</Text> |{' '}
-						{exp.place}
-					</Text>
-					<Text style={[styles.mainTextBold, { marginTop: '5px' }]}>
+					<Text style={[{ marginTop: '10px', fontSize: '12px' }]}>
 						{exp.occupiedPosition}
 					</Text>
-					<Text style={[styles.mainText, { marginTop: '5px' }]}>
+					<Text style={[styles.mainTextLight, { marginTop: '5px' }]}>
 						Développement de nouvelles fonctionnalités sur la web application et
 						enrichissement de l'API.{exp.descritpion}
 					</Text>
 					<Text style={[styles.mainTextLight, { marginTop: '5px' }]}>
-						https://www.loumi.co/{exp.project}
+						{exp.project}
 					</Text>
-					<Text style={[styles.mainText, { marginTop: '10px' }]}>stack</Text>
-					<Text style={styles.mainText}></Text>
+					<Text style={[styles.mainText, { marginTop: '10px' }]}>
+						{exp.stack.map((stk, i) => (
+							<Text key={i} style={i > 0 && { marginLeft: '3px' }}>
+								{firstLetterCapital(stk.value)} |{' '}
+							</Text>
+						))}
+					</Text>
+					<Text
+						style={[
+							styles.mainTextQuestion,
+							{
+								backgroundColor: '#e7e7e7',
+								borderRadius: '3px',
+								padding: '2px 4px',
+								margin: '10px 0',
+							},
+						]}>
+						Completed projects in {exp.company}
+					</Text>
+					{exp.achievements.map((ach, i) => (
+						<View key={i}>
+							<Text style={[styles.mainTextLight]}>* {ach.value}</Text>
+						</View>
+					))}
 				</View>
 			))}
 		</View>

@@ -78,6 +78,11 @@ const ResumeInfos = (props) => {
 				? initialExpertises
 				: resumeHolded.expertises,
 		softSkills: resumeHolded.softSkills || [],
+		education: {
+			academy: resumeHolded?.education?.academy || '',
+			period: resumeHolded?.education?.period || '',
+			certificate: resumeHolded?.education?.certificate || '',
+		},
 	};
 
 	const [postionError, setPositionError] = useState(false);
@@ -214,13 +219,61 @@ const ResumeInfos = (props) => {
 				/>
 			</div>
 			<div style={{ marginTop: '30px' }}>
+				<h3>Education</h3>
+				<TextField
+					value={resumeInfos.education.academy}
+					placeholder='Academy'
+					size='small'
+					fullWidth
+					style={{ color: '#574b90' }}
+					name='portfolio'
+					onChange={(e) => {
+						setResumeInfos({
+							...resumeInfos,
+							education: { ...resumeInfos.education, academy: e.target.value },
+						});
+					}}
+				/>
+				<TextField
+					value={resumeInfos.education.period}
+					placeholder='Period of education'
+					size='small'
+					fullWidth
+					style={{ color: '#574b90', marginTop: '20px' }}
+					name='periode'
+					onChange={(e) => {
+						setResumeInfos({
+							...resumeInfos,
+							education: { ...resumeInfos.education, period: e.target.value },
+						});
+					}}
+				/>
+				<TextField
+					value={resumeInfos.education.certificate}
+					placeholder='Certificate'
+					size='small'
+					fullWidth
+					style={{ color: '#574b90', marginTop: '20px' }}
+					name='periode'
+					onChange={(e) => {
+						setResumeInfos({
+							...resumeInfos,
+							education: {
+								...resumeInfos.education,
+								certificate: e.target.value,
+							},
+						});
+					}}
+				/>
+			</div>
+			<div style={{ marginTop: '30px' }}>
 				<h3>Portfolio / Website </h3>
 				<TextField
 					value={resumeInfos.portfolio}
 					size='small'
 					fullWidth
 					style={{ color: '#574b90' }}
-					name='portfolio'
+					name='education'
 					onChange={(e) => handleChange(e, 'text')}
 				/>
 			</div>

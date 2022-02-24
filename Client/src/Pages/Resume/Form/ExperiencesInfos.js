@@ -146,7 +146,10 @@ const ExperiencesInfos = (props) => {
 					if ([stateKey].value !== '') {
 						exp = {
 							...exp,
-							[listKey]: [...exp[listKey], stateKey],
+							[listKey]: [
+								...exp[listKey],
+								stateKey === 'stack' ? achievement : stack,
+							],
 						};
 					}
 				}

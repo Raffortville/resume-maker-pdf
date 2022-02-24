@@ -11,6 +11,12 @@ const expertiseSchema = new mongoose.Schema({
 	skills: [subDocSchema],
 });
 
+const educationSchema = new mongoose.Schema({
+	academy: String,
+	period: String,
+	certificate: String,
+});
+
 const experienceSchema = new mongoose.Schema({
 	company: String,
 	period: String,
@@ -35,6 +41,7 @@ const resumeSchema = new mongoose.Schema({
 	createdtAt: Date,
 	state: String,
 	experiences: [experienceSchema],
+	education: educationSchema,
 	profilPic: String,
 	colorMain: String,
 });
