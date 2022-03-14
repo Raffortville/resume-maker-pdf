@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
 	},
 
 	sideTitle: {
-		fontSize: '18px',
+		fontSize: '16px',
 		padding: '4px 0px',
 		fontFamily: 'Fira',
 		textAlign: 'center',
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
 		color: '#3d3d3d',
 	},
 	mainTitle: {
-		fontSize: '20px',
+		fontSize: '18px',
 		color: '#5a5a5a',
 	},
 	mainSubTitle: {
@@ -155,26 +155,45 @@ const PdfResume = (props) => {
 				<Text style={styles.sideText}>{resume.introduction}</Text>
 			</View>
 			{resume?.expertises.length > 0 && (
-				<View style={{ marginTop: '15px' }}>
+				<View style={{ marginTop: '10px' }}>
 					<Text style={styles.sideTitle}>EXPERTISES</Text>
-					<View style={{ marginTop: '10px', padding: '0 15px' }}>
+					<View style={{ padding: '0 15px' }}>
 						{resume.expertises.map((expert, i) => (
-							<Text
-								key={i}
-								style={[styles.mainTextBold, { textTransform: 'uppercase' }]}>
-								{expert.expertiseKey}
-							</Text>
+							<>
+								<Text
+									key={i}
+									style={[
+										styles.sideTextBold,
+										{
+											textTransform: 'uppercase',
+											marginTop: '5px',
+											letterSpacing: '1px',
+										},
+									]}>
+									{expert.expertiseKey} :
+								</Text>
+								{expert.skills.map((skill, idx) => (
+									<Text
+										key={idx}
+										style={[
+											styles.mainTextLight,
+											{ fontSize: '11px', letterSpacing: '1px' },
+										]}>
+										* {skill.value}
+									</Text>
+								))}
+							</>
 						))}
 					</View>
 				</View>
 			)}
-			{resume.softSkills.length > 0 && (
-				<View style={{ marginTop: '30px' }}>
+			{resume?.softSkills.length > 0 && (
+				<View>
 					<Text style={styles.sideTitle}>SOFT SKILLS</Text>
-					<View style={{ marginTop: '10px', padding: '0 15px' }}>
+					<View style={{ marginTop: '5px', padding: '0 15px' }}>
 						{resume.softSkills.map((soft, i) => (
-							<Text key={i} style={styles.sideText}>
-								* {'soft skill'}
+							<Text key={i} style={styles.sideTextBold}>
+								* {soft.value}
 							</Text>
 						))}
 					</View>
@@ -187,7 +206,9 @@ const PdfResume = (props) => {
 		<View style={{ position: 'relative' }}>
 			<Text style={styles.mainTitle}>{user.firstName}</Text>
 			<Text style={styles.mainSubTitle}>{user.lastName}</Text>
-			<Text style={{ fontSize: '14px' }}>{resume.position}</Text>
+			<Text style={{ fontSize: '16px', letterSpacing: '1px' }}>
+				{resume.position}
+			</Text>
 			<Text style={[styles.mainTextQuestion, { marginTop: '10px' }]}>
 				Phone
 				<Text style={styles.mainText}> {user.phone}</Text>
@@ -230,7 +251,7 @@ const PdfResume = (props) => {
 				</Text>
 			</Text>
 			{resume.experiences.map((exp, i) => (
-				<View style={{ marginTop: '10px' }} key={i}>
+				<View key={i}>
 					<Text
 						style={[
 							styles.mainTextBold,
@@ -247,8 +268,7 @@ const PdfResume = (props) => {
 						{exp.occupiedPosition}
 					</Text>
 					<Text style={[styles.mainTextLight, { marginTop: '5px' }]}>
-						Développement de nouvelles fonctionnalités sur la web application et
-						enrichissement de l'API.{exp.descritpion}
+						{exp.descritpion}
 					</Text>
 					<Text style={[styles.mainTextLight, { marginTop: '5px' }]}>
 						{exp.project}
@@ -282,6 +302,41 @@ const PdfResume = (props) => {
 		</View>
 	);
 
+	const bottomElement = (
+		<>
+			<View
+				style={{
+					width: '100%',
+					borderBottom: `1px solid ${colorMain}`,
+					marginTop: '30px',
+				}}></View>
+			<Text style={[styles.sideSubTitle, { marginTop: '10px' }]}>
+				EDUCATION
+				<Text style={[styles.sideSubTitle, { opacity: 0.5 }]}>
+					{' '}
+					IN THE FIELD OF PROGRAMMING
+				</Text>
+			</Text>
+			<View>
+				<Text
+					style={[
+						styles.mainTextBold,
+						{
+							backgroundColor: '#D3D3D3',
+							borderRadius: '3px',
+							padding: '2px 4px',
+							marginTop: '10px',
+						},
+					]}>
+					{resume?.education?.period} | {resume?.education?.academy} |{' '}
+				</Text>
+				<Text style={[{ marginTop: '10px', fontSize: '12px' }]}>
+					{resume?.education?.certificate}
+				</Text>
+			</View>
+		</>
+	);
+
 	return (
 		<Document>
 			<Page size='A4' style={styles.page}>
@@ -289,6 +344,7 @@ const PdfResume = (props) => {
 				<View style={styles.main}>
 					{headElement}
 					{mainElement}
+					{bottomElement}
 				</View>
 			</Page>
 		</Document>

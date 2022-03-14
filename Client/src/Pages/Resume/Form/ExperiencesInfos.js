@@ -295,13 +295,22 @@ const ExperiencesInfos = (props) => {
 									color: '#786fa6',
 									cursor: 'pointer',
 								}}
-								onClick={() =>
-									addItemToExperiences(
-										'achievements',
-										'achievement',
-										experience.exp_id
-									)
-								}
+								onClick={() => {
+									if (!isStringEmpty(achievement.value)) {
+										setExperiences(
+											experiences.map((elmt) => {
+												if (experience.exp_id === elmt.exp_id) {
+													elmt = {
+														...elmt,
+														achievements: [...elmt.achievements, achievement],
+													};
+													setAchievement(initialAchievement);
+												}
+												return elmt;
+											})
+										);
+									}
+								}}
 							/>
 						</Tooltip>
 					</div>
@@ -330,7 +339,20 @@ const ExperiencesInfos = (props) => {
 									cursor: 'pointer',
 								}}
 								onClick={() => {
-									addItemToExperiences('stack', 'stack', experience.exp_id);
+									if (!isStringEmpty(stack.value)) {
+										setExperiences(
+											experiences.map((elmt) => {
+												if (experience.exp_id === elmt.exp_id) {
+													elmt = {
+														...elmt,
+														stack: [...elmt.stack, stack],
+													};
+													setStack(initialStack);
+												}
+												return elmt;
+											})
+										);
+									}
 								}}
 							/>
 						</Tooltip>

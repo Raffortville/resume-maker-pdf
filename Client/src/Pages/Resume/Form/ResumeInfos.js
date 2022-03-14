@@ -72,7 +72,7 @@ const ResumeInfos = (props) => {
 		position: resumeHolded.position || '',
 		portfolio: resumeHolded.portfolio || '',
 		introduction: resumeHolded.introduction || '',
-		socialMedias: resumeHolded.socialMedia || '',
+		socialMedias: resumeHolded.socialMedias || '',
 		expertises:
 			resumeHolded.expertises?.length === 0
 				? initialExpertises
@@ -226,7 +226,6 @@ const ResumeInfos = (props) => {
 					size='small'
 					fullWidth
 					style={{ color: '#574b90' }}
-					name='portfolio'
 					onChange={(e) => {
 						setResumeInfos({
 							...resumeInfos,
@@ -240,7 +239,6 @@ const ResumeInfos = (props) => {
 					size='small'
 					fullWidth
 					style={{ color: '#574b90', marginTop: '20px' }}
-					name='periode'
 					onChange={(e) => {
 						setResumeInfos({
 							...resumeInfos,
@@ -254,7 +252,6 @@ const ResumeInfos = (props) => {
 					size='small'
 					fullWidth
 					style={{ color: '#574b90', marginTop: '20px' }}
-					name='periode'
 					onChange={(e) => {
 						setResumeInfos({
 							...resumeInfos,
@@ -273,7 +270,7 @@ const ResumeInfos = (props) => {
 					size='small'
 					fullWidth
 					style={{ color: '#574b90' }}
-					name='education'
+					name='portfolio'
 					onChange={(e) => handleChange(e, 'text')}
 				/>
 			</div>
