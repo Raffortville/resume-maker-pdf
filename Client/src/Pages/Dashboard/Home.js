@@ -27,15 +27,15 @@ const Home = () => {
 	const history = useHistory();
 
 	useEffect(() => {
-		setDrafts(resumes.filter((e) => e.state === 'draft'));
-		setCompleted(resumes.filter((e) => e.state === 'complete'));
-	}, [resumes]);
-
-	useEffect(() => {
 		if (user) {
 			dispatch(getResumesFromDb(user._id));
 		}
 	}, [dispatch, user]);
+
+	useEffect(() => {
+		setDrafts(resumes.filter((e) => e.state === 'draft'));
+		setCompleted(resumes.filter((e) => e.state === 'complete'));
+	}, [resumes]);
 
 	return (
 		<div className='root-container resume'>
