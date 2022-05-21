@@ -149,14 +149,16 @@ const PdfResume = (props) => {
 
 	const asideElemenent = (
 		<View style={[styles.aside, { backgroundColor: colorMain }]}>
-			<Text style={styles.sideTitle}>PROFESSIONAL</Text>
-			<Text style={[styles.sideSubTitle, { opacity: '0.7' }]}>PROFILE</Text>
+			<Text style={styles.sideTitle}>PROFIL</Text>
+			<Text style={[styles.sideSubTitle, { opacity: '0.7' }]}>
+				PROFESSIONEL
+			</Text>
 			<View style={{ marginTop: '10px', padding: '0 10px' }}>
 				<Text style={styles.sideText}>{resume.introduction}</Text>
 			</View>
 			{resume?.expertises.length > 0 && (
 				<View style={{ marginTop: '10px' }}>
-					<Text style={styles.sideTitle}>EXPERTISES</Text>
+					<Text style={styles.sideTitle}>COMPETENCES</Text>
 					<View style={{ padding: '0 15px' }}>
 						{resume.expertises.map((expert, i) => (
 							<>
@@ -210,21 +212,21 @@ const PdfResume = (props) => {
 				{resume.position}
 			</Text>
 			<Text style={[styles.mainTextQuestion, { marginTop: '10px' }]}>
-				Phone
+				Mobile
 				<Text style={styles.mainText}> {user.phone}</Text>
 			</Text>
 			<Text style={styles.mainTextQuestion}>
 				Email <Text style={styles.mainText}> {user.emailPro}</Text>
 			</Text>
 			<Text style={styles.mainTextQuestion}>
-				Place{' '}
+				Lieu{' '}
 				<Text style={styles.mainText}>
 					{' '}
 					{user.city}, {user.country}
 				</Text>
 			</Text>
 			<Text style={styles.mainTextQuestion}>
-				Social media <Text style={styles.mainText}> {resume.socialMedias}</Text>
+				Media social <Text style={styles.mainText}> {resume.socialMedias}</Text>
 			</Text>
 			<View style={[styles.photoContainer, { backgroundColor: colorMain }]}>
 				<Image
@@ -244,10 +246,10 @@ const PdfResume = (props) => {
 	const mainElement = (
 		<View style={{ marginTop: '10px' }}>
 			<Text style={[styles.sideSubTitle]}>
-				PROFESSIONAL
+				EXPERIENCES
 				<Text style={[styles.sideSubTitle, { opacity: 0.5 }]}>
 					{' '}
-					EXPERIENCES
+					PROFESSIONNELLES
 				</Text>
 			</Text>
 			{resume.experiences.map((exp, i) => (
@@ -290,7 +292,7 @@ const PdfResume = (props) => {
 								margin: '10px 0',
 							},
 						]}>
-						Completed projects in {exp.company}
+						Projets réalisés {exp.company}
 					</Text>
 					{exp.achievements.map((ach, i) => (
 						<View key={i}>
@@ -312,10 +314,7 @@ const PdfResume = (props) => {
 				}}></View>
 			<Text style={[styles.sideSubTitle, { marginTop: '10px' }]}>
 				EDUCATION
-				<Text style={[styles.sideSubTitle, { opacity: 0.5 }]}>
-					{' '}
-					IN THE FIELD OF PROGRAMMING
-				</Text>
+				<Text style={[styles.sideSubTitle, { opacity: 0.5 }]}> </Text>
 			</Text>
 			<View>
 				<Text

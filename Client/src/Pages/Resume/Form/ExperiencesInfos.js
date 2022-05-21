@@ -127,7 +127,7 @@ const ExperiencesInfos = (props) => {
 			dispatch(
 				updateResumeToDb(
 					{
-						experiences: filtredExperiences,
+						experiences: filtredExperiences.reverse(),
 						...(resumeState === 'complete' && { state: 'complete' }),
 					},
 					resumeHolded._id,
